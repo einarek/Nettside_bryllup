@@ -1,0 +1,245 @@
+/* Reset some basic elements for consistency across browsers */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* Title */
+
+
+
+.title {
+    position: relative;
+    background-color: #ffffff;
+    height: 120px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    justify-content: center;
+}
+
+.title img {
+    width: 22%;
+    
+}
+
+/* Title date */
+.title_date {
+    position: relative;
+    background-color: #ffffff;
+    height: 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    justify-content: center;
+}
+
+.title_date img {
+    width: 10%;
+    
+}
+
+
+
+
+/* Countdown */
+
+
+/*
+.countdown {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #ffffff;
+  color: #145d28;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 1.2em;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+*/
+
+#countdown_front_page {
+    position: relative;
+    background-color: #ffffff;
+    height: 70px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    justify-content: center;
+    color: hsla(108, 50%, 34%, 0.5);
+}
+
+.countdown-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #ffffff;
+  color: #145d28;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  text-align: center;
+}
+
+.countdown-label {
+  font-size: 0.9em;
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.countdown {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+
+
+/* Navigation Bar */
+.navbar {
+    position: relative;
+    background-color: #ffffff;
+    height: 70px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar__menu {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar__item {
+    display: flex;
+    align-items: center;
+}
+
+.navbar__links {
+    color: #34924d;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 12px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.navbar__links:hover {
+    background-color: #86df99;
+    border-radius: 4px;
+}
+
+
+
+/* Sign up Button */
+.navbar__btn .button {
+    background-color: #34924d;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+    top: 8px;
+    position: relative;
+}
+
+.navbar__btn .button:hover {
+    background-color: #86df99;
+}
+
+.navbar__logo {
+    height: 50px;
+    margin-right: auto;
+   
+}
+
+/* Image carousel */
+.carousel-container {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.carousel-track {
+  display: flex;
+  width: fit-content;
+}
+
+.carousel-slide {
+  display: flex;
+}
+
+.carousel-slide img {
+  width: 300px;
+  height: 350px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+
+/* Map */
+#map {
+  width: 600px;
+  height: 600px;
+  margin-left: auto;
+  margin-right: 0;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+
+/* Responsive */
+/* This is used for moble devices. Only activates on small screens, where the width is 768px or less */
+@media (max-width: 768px) {
+    .navbar__container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar__menu {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .navbar__item, .navbar__btn {
+        width: 100%;
+    }
+
+    .navbar__links, .navbar__btn .button {
+        width: 100%;
+        text-align: left;
+    }
+}

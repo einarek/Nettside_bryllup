@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="no">                                                                          <!-- Norwegian as the language -->
+
+<head>                                                                                    <!-- contains metadata and resources that aren’t displayed directly on the web page -->
+    <meta charset="UTF-8">                                                                <!-- Sets the character encoding to UTF-8, which supports most characters from all known languages. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">                <!-- Ensures the page is responsive by setting the viewport width to the device width and initial zoom to 1. -->
+    <title>Info</title>                                                                  <!-- Sets the browser tab title -->
+    <link rel="stylesheet" href="styles.css">                                              <!-- Links an external CSS file named style.css to style the HTML content -->
+</head>
+<body>   
+    <div class="title">
+        <img src="images/tittel.png" alt="Banner">
+    </div> 
+    <div class="title_date">
+        <img src="images/tittel_dato.png" alt="Banner">
+    </div> 
+                                                                                 <!-- contains everything that is displayed on the webpage -->
+    <nav class="navbar">                                                                  <!-- tells the browser (and screen readers, search engines, etc.) that the content inside is a navigation menu—typically links to main sections of the website-->
+        <div class="navbar__container">  
+            <a href="/">
+                <img src="Images/logo_grønn.png" alt="Homepage Logo" style="height: 50px;">
+            </a>                                                 <!-- It’s a block-level container used to group elements together for styling or scripting (via CSS or JavaScript). -->
+            <ul class="navbar__menu">
+                <li class="navbar__item">
+                    <a href="/index.html" class="navbar__links">
+                        Hjem
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="/info.html" class="navbar__links">
+                        Info om dagen
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="/products.html" class="navbar__links">
+                        Overnatting
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="/products.html" class="navbar__links">
+                        Gavetips
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="/spill.html" class="navbar__links">
+                        Spill
+                    </a>
+                </li>
+                <li class="navbar__btn">
+                    <a href="/" class="button">
+                        RSVP
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="carousel-container">
+        <div class="carousel-track" id="carouselTrack">
+            <div class="carousel-slide" id="carouselSlide">
+                <img src="Images/IMG_7158.jpeg" alt="Image 1" />
+                <img src="Images/b2758849-77b0-449a-bf69-8837268cd0ee.jpg" alt="Image 2" />
+                <img src="Images/e14a533e-e252-4ca2-8c1c-b47d4466d5cf.jpg" alt= "Image 3" />
+                <img src="Images/e553f225-d552-4bd7-a3ed-8d9d29b3f564.jpg" alt="Image 4" />
+            </div>
+        </div>
+    </div>
+    <div class="countdown-container">
+        <p class="countdown-label">Tid igjen til bryllup:</p>
+        <div class="countdown"></div>
+    </div> 
+    
+    <script src="app.js"></script>
+</body>
+</html>
