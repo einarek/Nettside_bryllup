@@ -13,48 +13,62 @@ ulike spill:
 <head>                                                                                    <!-- contains metadata and resources that aren’t displayed directly on the web page -->
     <meta charset="UTF-8">                                                                <!-- Sets the character encoding to UTF-8, which supports most characters from all known languages. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">                <!-- Ensures the page is responsive by setting the viewport width to the device width and initial zoom to 1. -->
-    <title>Einar og Solveig gifter seg</title>                                                                  <!-- Sets the browser tab title -->
+    <title>Info</title>                                                                  <!-- Sets the browser tab title -->
     <link rel="stylesheet" href="styles.css">                                              <!-- Links an external CSS file named style.css to style the HTML content -->
+    <link rel="icon" type="image/png" href="Images/logo_svart.png">
 </head>
-<body>                                                                                    <!-- contains everything that is displayed on the webpage -->
+<body>   
+    <div class="title">
+        <img src="images/logo_navn_dato.png" alt="Banner">
+    </div> 
+                                                                                 <!-- contains everything that is displayed on the webpage -->
     <nav class="navbar">                                                                  <!-- tells the browser (and screen readers, search engines, etc.) that the content inside is a navigation menu—typically links to main sections of the website-->
-        <div class="navbar__container">  
-            <a href="/">
-                <img src="Images/Logo.jpg" alt="Homepage Logo" style="height: 50px;">
-            </a>                                                 <!-- It’s a block-level container used to group elements together for styling or scripting (via CSS or JavaScript). -->
+        <div class="navbar__container">                                                <!-- It’s a block-level container used to group elements together for styling or scripting (via CSS or JavaScript). -->
             <ul class="navbar__menu">
                 <li class="navbar__item">
-                    <a href="/" class="navbar__links">
+                    <a href="./index.html" class="navbar__links">
                         Hjem
                     </a>
                 </li>
                 <li class="navbar__item">
-                    <a href="/info.html" class="navbar__links">
+                    <a href="./info.html" class="navbar__links">
                         Info om dagen
                     </a>
                 </li>
                 <li class="navbar__item">
-                    <a href="/products.html" class="navbar__links">
+                    <a href="./overnatting.html" class="navbar__links">
                         Overnatting
                     </a>
                 </li>
                 <li class="navbar__item">
-                    <a href="/products.html" class="navbar__links">
+                    <a href="./gavetips.html" class="navbar__links">
                         Gavetips
                     </a>
                 </li>
                 <li class="navbar__item">
-                    <a href="/products.html" class="navbar__links">
+                    <a href="./spill.html" class="navbar__links">
                         Spill
                     </a>
                 </li>
+                <li class="navbar__item">
+                    <a href="./FAQ.html" class="navbar__links">
+                        FAQ
+                    </a>
+                </li>
                 <li class="navbar__btn">
-                    <a href="/" class="button">
-                        Sign up
+                    <a href="./RSVP.html" class="button">
+                        RSVP
                     </a>
                 </li>
             </ul>
         </div>
     </nav>
+    
+    <div class="countdown-container">
+        <p class="countdown-label">Tid igjen til bryllup:</p>
+        <div class="countdown"></div>
+    </div> 
+    
+    <script src="app.js"></script>
 </body>
 </html>
