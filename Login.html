@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="login_styles.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2>Innlogging</h2>
+    <p class="info-text">
+      Hei og velkommen til nettsiden vår!
+      Her finner du info om bryllupet og mer!
+      Brukernavn og passord finner du i invitasjonen.
+      Vi gleder oss!
+
+      Hilsen Solveig og Einar
+
+    </p>
+    <form>
+      <label for="username">Brukernavn</label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="password">Passord</label>
+      <input type="password" id="password" name="password" required>
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+  <script type="module">
+  // Firebase SDKs (modular)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+
+  // 1) Your Firebase config (from the console)
+  const firebaseConfig = {
+  apiKey: "AIzaSyCS76udSJAebNHNaNTcvGVOdvLnU_1LJiI",
+  authDomain: "kartnettside.firebaseapp.com",
+  databaseURL: "https://kartnettside-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "kartnettside",
+  storageBucket: "kartnettside.firebasestorage.app",
+  messagingSenderId: "495949813180",
+  appId: "1:495949813180:web:9f74f5c0e9dfef1f03c7b9",
+  measurementId: "G-W7JZWMQ4ZY"
+};
+
+  // 2) Init
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // 3) Hook up the form
+  const form = document.querySelector("form");
+  const usernameInput = document.getElementById("username"); // treat as email
+  const passwordInput = document.getElementById("password");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = usernameInput.value.trim();   // using "username" as email
+    const password = passwordInput.value;
+
+    try {
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      // Success: redirect or show a message
+      window.location.replace("index.html"); 
+      // window.location.href = "/dashboard.html";
+    } catch (err) {
+      // Common errors: auth/invalid-credential, auth/user-not-found, auth/wrong-password
+      alert(err.message);
+    }
+  });
+</script>
+
+</body>
+</html>

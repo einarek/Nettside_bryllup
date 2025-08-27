@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">                <!-- Ensures the page is responsive by setting the viewport width to the device width and initial zoom to 1. -->
     <title>Einar og Solveig gifter seg</title>                                                                  <!-- Sets the browser tab title -->
     <link rel="stylesheet" href="styles.css">                                              <!-- Links an external CSS file named style.css to style the HTML content -->
+    <link rel="icon" type="image/png" href="Images/logo_svart.png">
 </head>
 <body>   
-    
+     
     <div class="title">
-        <img src="Images/logo_navn_dato.png" alt="Banner">
+        <img src="images/font 4 eks.jpg" alt="Banner">
     </div> 
     
                                                                         <!-- contains everything that is displayed on the webpage -->
@@ -49,8 +50,13 @@
                     </a>
                 </li>
                 <li class="navbar__btn">
-                    <a href="./" class="button">
+                    <a href="./RSVP.html" class="button">
                         RSVP
+                    </a>
+                </li>
+                <li class="navbar__btn">
+                    <a href="./Login.html" class="button">
+                        Login
                     </a>
                 </li>
             </ul>
@@ -59,10 +65,16 @@
     <div class="carousel-container">
         <div class="carousel-track" id="carouselTrack">
             <div class="carousel-slide" id="carouselSlide">
-                <img src="Images/IMG_7158.jpeg" alt="Image 1" />
-                <img src="Images/b2758849-77b0-449a-bf69-8837268cd0ee.jpg" alt="Image 2" />
-                <img src="Images/e14a533e-e252-4ca2-8c1c-b47d4466d5cf.jpg" alt= "Image 3" />
-                <img src="Images/e553f225-d552-4bd7-a3ed-8d9d29b3f564.jpg" alt="Image 4" />
+                <img src="Images/1 kopi.jpg" alt="Image 1" />
+                <img src="Images/2 kopi.jpg" alt="Image 2" />
+                <img src="Images/3 kopi.jpg" alt= "Image 3" />
+                
+                
+                <img src="Images/6 kopi.jpg" alt="Image 6" />
+                
+                <img src="Images/7 kopi.jpg" alt="Image 7" />
+                <img src="Images/4 finest kopi.jpg" alt="Image 4" />
+                
             </div>
         </div>
     </div>
@@ -72,5 +84,30 @@
     
     
     <script src="app.js"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+
+        const app = initializeApp({
+        apiKey: "AIzaSyCS76udSJAebNHNaNTcvGVOdvLnU_1LJiI",
+        authDomain: "kartnettside.firebaseapp.com",
+        databaseURL: "https://kartnettside-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "kartnettside",
+        storageBucket: "kartnettside.firebasestorage.app",
+        messagingSenderId: "495949813180",
+        appId: "1:495949813180:web:9f74f5c0e9dfef1f03c7b9",
+        measurementId: "G-W7JZWMQ4ZY"
+        });
+        const auth = getAuth(app);
+        
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+            // not signed in → send back to login
+            window.location.replace("./Login.html");
+            }
+        });
+    </script>
 </body>
 </html>

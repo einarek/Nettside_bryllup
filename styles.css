@@ -219,6 +219,31 @@ body {
   border-radius: 8px;
 }
 
+/* Login box */
+.login-box {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.login-box input {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
 
 /* Responsive */
 /* This is used for moble devices. Only activates on small screens, where the width is 768px or less */

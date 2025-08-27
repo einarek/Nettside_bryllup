@@ -10,7 +10,7 @@
 </head>
 <body>   
     <div class="title">
-        <img src="images/font 1 eks.jpg" alt="Banner">
+        <img src="images/logo_navn_dato.png" alt="Banner">
     </div> 
                                                                                  <!-- contains everything that is displayed on the webpage -->
     <nav class="navbar">                                                                  <!-- tells the browser (and screen readers, search engines, etc.) that the content inside is a navigation menu—typically links to main sections of the website-->
@@ -59,7 +59,19 @@
         <p class="countdown-label">Tid igjen til bryllup:</p>
         <div class="countdown"></div>
     </div> 
-    
+
+    <div id="map"></div>
+
     <script src="app.js"></script>
+    <script src="maps.js"></script>
+
+    <!-- Load Google Maps API (Replace YOUR_API_KEY with your actual key) -->
+    <script
+        async
+        defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv2Rn-p5FbiQi9OssDsSr4Zvpj4RrZt4U&callback=initMap">
+    </script>
+    
+    
 </body>
 </html>
