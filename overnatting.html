@@ -7,38 +7,120 @@
     <title>Info</title>                                                                  <!-- Sets the browser tab title -->
     <link rel="stylesheet" href="styles.css">                                              <!-- Links an external CSS file named style.css to style the HTML content -->
     <link rel="icon" type="image/png" href="Images/logo_svart.png">
+    <link rel="stylesheet" href="https://use.typekit.net/qsc8tmo.css">
+
+    <style>
+        .info-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 40px;
+        }
+
+        .info-text {
+            flex: 1;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .info-text h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: normal;
+        }
+
+        .info-image {
+            flex: 1;
+            text-align: right;
+        }
+
+        .info-image img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            margin-top: 40px;
+        }
+
+        .flashy-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #4fa445;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 30px;
+            box-shadow: 0 0 15px rgba(79, 123, 98, 0.6);
+            transition: all 0.3s ease-in-out;
+            margin-right: 110px;
+            margin-top: 30px;
+            
+        }
+
+        .flashy-link:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 25px rgba(255, 105, 0, 0.8);
+            background: #4fa445;
+        }
+
+
+        /* Make it responsive for smaller screens */
+        @media (max-width: 768px) {
+            .info-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .info-image {
+                text-align: center;
+            }
+
+            .info-image img {
+                max-width: 100%;
+            }
+        }
+
+    </style>
 </head>
+
+
 <body>   
-    <div class="title">
-        <img src="images/logo_navn_dato.png" alt="Banner">
-    </div> 
-                                                                                 <!-- contains everything that is displayed on the webpage -->
-    <nav class="navbar">                                                                  <!-- tells the browser (and screen readers, search engines, etc.) that the content inside is a navigation menu—typically links to main sections of the website-->
-        <div class="navbar__container">                                                <!-- It’s a block-level container used to group elements together for styling or scripting (via CSS or JavaScript). -->
+    <nav class="navbar">    
+                                                                     <!-- tells the browser (and screen readers, search engines, etc.) that the content inside is a navigation menu—typically links to main sections of the website-->
+        <div class="navbar__container"> 
+            <a href="./index.html" class="navbar_logo_links">                                           <!-- It’s a block-level container used to group elements together for styling or scripting (via CSS or JavaScript). -->
+                <img src="images/logo_navbar.jpg" alt="Logo_navbar" class="navbar_logo"> 
+            </a>
             <ul class="navbar__menu">
+                
                 <li class="navbar__item">
                     <a href="./index.html" class="navbar__links">
-                        Hjem
+                        HJEM
                     </a>
                 </li>
                 <li class="navbar__item">
                     <a href="./info.html" class="navbar__links">
-                        Info om dagen
+                        INFO OM DAGEN
                     </a>
                 </li>
                 <li class="navbar__item">
                     <a href="./overnatting.html" class="navbar__links">
-                        Overnatting
+                        OVERNATTING
                     </a>
                 </li>
                 <li class="navbar__item">
                     <a href="./gavetips.html" class="navbar__links">
-                        Gavetips
+                        GAVETIPS
                     </a>
                 </li>
                 <li class="navbar__item">
                     <a href="./spill.html" class="navbar__links">
-                        Spill
+                        SPILL
                     </a>
                 </li>
                 <li class="navbar__item">
@@ -58,7 +140,29 @@
     <div class="countdown-container">
         <p class="countdown-label">Tid igjen til bryllup:</p>
         <div class="countdown"></div>
-    </div> 
+    </div>  
+
+    <section class="info-section">
+        <div class="info-text">
+            <h2>Om Overnatting</h2>
+            <p>
+                Siden bryllupsfesten er på Strand Hotel Fevik hadde vi ønsket at så mange som mulig bor der fra lørdag til søndag. 
+                Det er også fullt mulig å bo på airbnb, andre hotell, camping eller hos bekjente. Dere ser an selv, men det hadde 
+                vært veldig koselig å ha så mange som mulig på hotellet på festkvelden (lørdag) og på frokosten søndagen. Dere får også 15% rabatt på Strand hotel gjennom knappen under bildet (Trykk på knappen som sier "Rabatt på Strand Hotel"). <br><br>
+
+                Til info tenker vi også å ha et lavterskel arrangement på fredagen på Strand Hotel for de som ønsker det. Dette er 
+                selvfølgelig også åpent for de som ikke bor på strand Hotel. <br>
+            </p>
+            <br>
+
+        </div>
+        <div class="info-image">
+            <img src="images/strand_hotel.jpg" alt="Bryllupsbilde">
+            <a href="https://booking.strandhotellfevik.no/campaign/campaign-details?channelid=9bb7e721-1133-4427-9ff8-3915ce71c248&culture=nb&pseudo_id=psuedo_thogvlqcpz9&roomconfig=a2&year=2026&month=6&day=19&staylength=2&promocode=BRY26&campaignid=6e46d015-a674-433e-a246-7cd62b40c2d4" target="_blank" class="flashy-link">Rabatt på Strand Hotel</a>
+
+        </div>
+    </section>
+
 
     <div id="map"></div>
 
@@ -72,6 +176,30 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv2Rn-p5FbiQi9OssDsSr4Zvpj4RrZt4U&callback=initMap">
     </script>
     
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+
+        const app = initializeApp({
+        apiKey: "AIzaSyCS76udSJAebNHNaNTcvGVOdvLnU_1LJiI",
+        authDomain: "kartnettside.firebaseapp.com",
+        databaseURL: "https://kartnettside-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "kartnettside",
+        storageBucket: "kartnettside.firebasestorage.app",
+        messagingSenderId: "495949813180",
+        appId: "1:495949813180:web:9f74f5c0e9dfef1f03c7b9",
+        measurementId: "G-W7JZWMQ4ZY"
+        });
+        const auth = getAuth(app);
+        
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+            // not signed in → send back to login
+            window.location.replace("./Login.html");
+            }
+        });
+    </script>
     
 </body>
 </html>

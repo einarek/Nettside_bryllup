@@ -1,44 +1,209 @@
 <!DOCTYPE html>
-<html lang="no">                                                                          <!-- Norwegian as the language -->
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gaveønsker</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="Images/logo_svart.png">
+  
+  <link rel="stylesheet" href="https://use.typekit.net/qsc8tmo.css">
 
-<head>                                                                                    <!-- contains metadata and resources that aren’t displayed directly on the web page -->
-    <meta charset="UTF-8">                                                                <!-- Sets the character encoding to UTF-8, which supports most characters from all known languages. -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">                <!-- Ensures the page is responsive by setting the viewport width to the device width and initial zoom to 1. -->
-    <title>Info</title>                                                                  <!-- Sets the browser tab title -->
-    <link rel="stylesheet" href="styles.css">                                              <!-- Links an external CSS file named style.css to style the HTML content -->
-    <link rel="icon" type="image/png" href="Images/logo_svart.png">
+  <style>
+    :root{
+      --bg:#0b1020; --card:#12172a; --text:#e7eaf3; --muted:#a6aec9; --border:#232a46; --accent:#6ea8fe; --danger:#ff6b6b;
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#f6f7fb; --card:#ffffff; --text:#0e1320; --muted:#5a6178; --border:#e6e8f0; --accent:#4c7dff }
+    }
+   
+
+    .wrap{ max-width:1100px; margin:90px auto 40px; padding:0 16px; font-style: normal;}
+   
+    .sub{ color:#000000; margin-bottom:20px; }
+
+    /* container under the image */
+    .gift-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    width: 100%;
+    align-items: flex-start;
+    }
+
+    /* left side: title + description */
+    .gift-left {
+    flex: 1;
+    text-align: left;
+    }
+
+    .gift-left .gift-title {
+    text-align: left;
+    margin-bottom: 4px;
+    }
+
+    .gift-left .gift-desc {
+    text-align: left;
+    }
+
+    /* right side: qty + button(s) */
+    .gift-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    }
+
+    /* make actions vertical on the right side */
+    .gift-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
+    margin-top: 0;
+    }
+
+    /* mobile: stack left/right */
+    @media (max-width: 520px) {
+    .gift-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .gift-right {
+        align-items: flex-start;
+    }
+    .gift-actions {
+        align-items: flex-start;
+    }
+    }
+
+    .grid-gifts{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:16px;
+    }
+    .gift-card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:16px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      box-shadow:0 18px 40px rgba(0,0,0,.25);
+    }
+    .gift-title{ font-weight:600; font-size:1.05rem; }
+    .gift-desc{ color:var(--muted); font-size:.92rem; }
+    .qty-badge{
+      display:inline-block;
+      background: #d9e3d6;
+      
+      border:1px solid rgba(110,168,254,0.5);
+      color:var(--text);
+      border-radius:999px;
+      padding:3px 10px;
+      font-size:.78rem;
+    }
+    .gift-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin-top:auto;
+    }
+    .btn{
+      display:inline-flex;
+      gap:4px;
+      align-items:center;
+      background: #728b6e;
+
+      border:none;
+      color:#071021;
+      font-weight:600;
+      padding:7px 14px;
+      border-radius:10px;
+      cursor:pointer;
+    }
+    .btn[disabled]{
+      opacity:.6;
+      cursor:not-allowed;
+    }
+    .link{
+      color:var(--accent);
+      text-decoration:none;
+      font-size:.85rem;
+    }
+    .empty-msg{
+      background:rgba(0,0,0,.1);
+      border:1px dashed var(--border);
+      border-radius:14px;
+      padding:16px;
+      text-align:center;
+      color:var(--muted);
+    }
+    .confirm-box {
+    background: color-mix(in oklab, var(--card), white 5%);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    }
+
+    .confirm-box .btn {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    }
+    .gift-left .link {
+    display: inline-block;
+    margin-top: 6px;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.85rem;
+    }
+
+    .gift-left .link:hover {
+    text-decoration: underline;
+    }
+
+    .gift-card .link{
+    color: #4187f0;
+    font-size: 1.0rem;
+    }
+
+
+  </style>
 </head>
-<body>   
-    <div class="title">
-        <img src="images/logo_navn_dato.png" alt="Banner">
-    </div> 
-                                                                                 <!-- contains everything that is displayed on the webpage -->
-    <nav class="navbar">                                                                  <!-- tells the browser (and screen readers, search engines, etc.) that the content inside is a navigation menu—typically links to main sections of the website-->
-        <div class="navbar__container">                                                <!-- It’s a block-level container used to group elements together for styling or scripting (via CSS or JavaScript). -->
-            <ul class="navbar__menu">
-                <li class="navbar__item">
+<body>
+  <!-- NAVBAR (same as your other pages) -->
+  <nav class="navbar">
+    <div class="navbar__container">
+      <a href="./index.html" class="navbar_logo_links">
+        <img src="images/logo_navbar.jpg" alt="Logo_navbar" class="navbar_logo">
+      </a>
+      <ul class="navbar__menu">
+       <li class="navbar__item">
                     <a href="./index.html" class="navbar__links">
-                        Hjem
+                        HJEM
                     </a>
                 </li>
                 <li class="navbar__item">
                     <a href="./info.html" class="navbar__links">
-                        Info om dagen
+                        INFO OM DAGEN
                     </a>
                 </li>
                 <li class="navbar__item">
                     <a href="./overnatting.html" class="navbar__links">
-                        Overnatting
+                        OVERNATTING
                     </a>
                 </li>
                 <li class="navbar__item">
                     <a href="./gavetips.html" class="navbar__links">
-                        Gavetips
+                        GAVETIPS
                     </a>
                 </li>
                 <li class="navbar__item">
                     <a href="./spill.html" class="navbar__links">
-                        Spill
+                        SPILL
                     </a>
                 </li>
                 <li class="navbar__item">
@@ -51,15 +216,180 @@
                         RSVP
                     </a>
                 </li>
-            </ul>
-        </div>
-    </nav>
-    
-    <div class="countdown-container">
-        <p class="countdown-label">Tid igjen til bryllup:</p>
-        <div class="countdown"></div>
-    </div> 
-    
-    <script src="app.js"></script>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <h2>Gaveønsker</h2>
+    <p class="sub">Her kan dere reservere en gave, slik at det er en oversikt over hvilke gaver som er tilgjengelige. Når du klikker på "Reserver 1" må du bekrefte at du reserverer gaven. Etter det vil antallet gå ned, og når det er tomt forsvinner gaven fra oversikten.</p>
+
+    <div id="gift-list" class="grid-gifts">
+      <!-- filled by JS -->
+    </div>
+
+    <p id="error" style="color:#ff6b6b; margin-top:16px; display:none;">Kunne ikke reservere gaven. Prøv igjen.</p>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+    import { getFirestore, collection, query, orderBy, onSnapshot, doc, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+
+    // same app as the others
+    const app = initializeApp({
+      apiKey: "AIzaSyCS76udSJAebNHNaNTcvGVOdvLnU_1LJiI",
+      authDomain: "kartnettside.firebaseapp.com",
+      databaseURL: "https://kartnettside-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "kartnettside",
+      storageBucket: "kartnettside.firebasestorage.app",
+      messagingSenderId: "495949813180",
+      appId: "1:495949813180:web:9f74f5c0e9dfef1f03c7b9",
+      measurementId: "G-W7JZWMQ4ZY"
+    });
+
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    const EVENT_ID = "wedding1";
+    const giftListEl = document.getElementById("gift-list");
+    const errorEl    = document.getElementById("error");
+
+    // If everybody uses same shared user, this is enough:
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        // if you DO want to require login:
+        window.location.replace("./Login.html");
+        return;
+      }
+      listenToGifts();
+    });
+
+    function listenToGifts(){
+      const qRef = query(collection(db, "events", EVENT_ID, "gifts"), orderBy("priority", "asc"));
+      onSnapshot(qRef, (snap) => {
+        const gifts = [];
+        snap.forEach(doc => {
+          gifts.push({ id: doc.id, ...doc.data() });
+        });
+        renderGifts(gifts);
+      });
+    }
+
+    function renderGifts(gifts){
+      if (!gifts.length){
+        giftListEl.innerHTML = `<div class="empty-msg">Ingen gaver er lagt inn ennå.</div>`;
+        return;
+      }
+
+      giftListEl.innerHTML = gifts
+        .filter(g => typeof g.quantity === "number" ? g.quantity > 0 : true)
+        .map(g => {
+            const qty = typeof g.quantity === "number" ? g.quantity : 1;
+            return `
+            <div class="gift-card" data-id="${g.id}">
+                ${g.imageUrl ? `<img src="${escapeAttr(g.imageUrl)}" alt="" style="width:100%;height:180px;         /* use height, not max-height */border-radius:10px;object-fit:contain;   /* no cropping */margin-bottom:8px;background: rgba(255,255,255,0.06); /* optional: looks nicer with empty space */"">` : ""}
+
+                <div class="gift-content">
+                <div class="gift-left">
+                    <div class="gift-title">${escapeHtml(g.title || "Uten navn")}</div>
+                    ${g.description ? `<div class="gift-desc">${escapeHtml(g.description)}</div>` : ""}
+                    ${g.link ? `<div style="margin-top:6px;"><a href="${escapeAttr(g.link)}" target="_blank" class="link">Link til gave</a></div>` : ""}
+
+                </div>
+
+                <div class="gift-right">
+                    <span class="qty-badge">${qty} igjen</span>
+                    <div class="gift-actions">
+                    <button class="btn" data-action="take" ${qty <= 0 ? "disabled" : ""}>Reserver 1</button>
+                    <div class="confirm-box" style="display:none; margin-top:8px;">
+                        <div style="font-size:0.9rem; color:var(--text); margin-bottom:6px;">
+                            Bekreft at du tar denne gaven?
+                        </div>
+                        <button class="btn btn-confirm" data-action="confirm">Bekreft</button>
+                        <button class="btn btn-cancel" data-action="cancel" style="background:rgba(255,255,255,0.1); color:var(--text);">Avbryt</button>
+                    </div>
+                    
+                    </div>
+                </div>
+                </div>
+            </div>
+            `;
+        })
+        .join("");
+
+      
+      // attach handlers
+      giftListEl.querySelectorAll("[data-action='take']").forEach(btn => {
+        btn.addEventListener("click", onTakeGift);
+      });
+    }
+
+    function showConfirmBox(card) {
+  const confirmBox = card.querySelector(".confirm-box");
+  confirmBox.style.display = "block";
+
+  // disable main button while confirming
+  const takeBtn = card.querySelector("[data-action='take']");
+  takeBtn.disabled = true;
+
+  // handle confirm + cancel
+  confirmBox.querySelector("[data-action='confirm']").onclick = async () => {
+    confirmBox.style.display = "none";
+    takeBtn.disabled = false;
+    await actuallyTakeGift(card); // runs transaction
+  };
+  confirmBox.querySelector("[data-action='cancel']").onclick = () => {
+    confirmBox.style.display = "none";
+    takeBtn.disabled = false;
+  };
+}
+
+function onTakeGift(e) {
+  const card = e.target.closest(".gift-card");
+  showConfirmBox(card);
+}
+
+async function actuallyTakeGift(card) {
+  const giftId = card.dataset.id;
+  const giftRef = doc(db, "events", EVENT_ID, "gifts", giftId);
+
+  errorEl.style.display = "none";
+
+  try {
+    await runTransaction(db, async (transaction) => {
+      const snap = await transaction.get(giftRef);
+      if (!snap.exists()) throw new Error("Gaven finnes ikke lenger");
+
+      const data = snap.data();
+      const currentQty = typeof data.quantity === "number" ? data.quantity : 0;
+      if (currentQty <= 0) throw new Error("Tomt");
+
+      transaction.update(giftRef, { quantity: currentQty - 1 });
+    });
+  } catch (err) {
+    console.error(err);
+    errorEl.textContent = "Kunne ikke reservere gaven. Noen andre tok den kanskje akkurat nå.";
+    errorEl.style.display = "block";
+  }
+}
+
+
+    function escapeHtml(s){
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+    function escapeAttr(s){
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;");
+    }
+  </script>
 </body>
 </html>

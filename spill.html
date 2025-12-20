@@ -16,38 +16,40 @@ ulike spill:
     <title>Info</title>                                                                  <!-- Sets the browser tab title -->
     <link rel="stylesheet" href="styles.css">                                              <!-- Links an external CSS file named style.css to style the HTML content -->
     <link rel="icon" type="image/png" href="Images/logo_svart.png">
+    <link rel="stylesheet" href="https://use.typekit.net/qsc8tmo.css">
 </head>
 <body>   
-    <div class="title">
-        <img src="images/logo_navn_dato.png" alt="Banner">
-    </div> 
-                                                                                 <!-- contains everything that is displayed on the webpage -->
-    <nav class="navbar">                                                                  <!-- tells the browser (and screen readers, search engines, etc.) that the content inside is a navigation menu—typically links to main sections of the website-->
-        <div class="navbar__container">                                                <!-- It’s a block-level container used to group elements together for styling or scripting (via CSS or JavaScript). -->
+    <nav class="navbar">    
+                                                                     <!-- tells the browser (and screen readers, search engines, etc.) that the content inside is a navigation menu—typically links to main sections of the website-->
+        <div class="navbar__container"> 
+            <a href="./index.html" class="navbar_logo_links">                                           <!-- It’s a block-level container used to group elements together for styling or scripting (via CSS or JavaScript). -->
+                <img src="images/logo_navbar.jpg" alt="Logo_navbar" class="navbar_logo"> 
+            </a>
             <ul class="navbar__menu">
+                
                 <li class="navbar__item">
                     <a href="./index.html" class="navbar__links">
-                        Hjem
+                        HJEM
                     </a>
                 </li>
                 <li class="navbar__item">
                     <a href="./info.html" class="navbar__links">
-                        Info om dagen
+                        INFO OM DAGEN
                     </a>
                 </li>
                 <li class="navbar__item">
                     <a href="./overnatting.html" class="navbar__links">
-                        Overnatting
+                        OVERNATTING
                     </a>
                 </li>
                 <li class="navbar__item">
                     <a href="./gavetips.html" class="navbar__links">
-                        Gavetips
+                        GAVETIPS
                     </a>
                 </li>
                 <li class="navbar__item">
                     <a href="./spill.html" class="navbar__links">
-                        Spill
+                        SPILL
                     </a>
                 </li>
                 <li class="navbar__item">
@@ -70,5 +72,30 @@ ulike spill:
     </div> 
     
     <script src="app.js"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+
+        const app = initializeApp({
+        apiKey: "AIzaSyCS76udSJAebNHNaNTcvGVOdvLnU_1LJiI",
+        authDomain: "kartnettside.firebaseapp.com",
+        databaseURL: "https://kartnettside-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "kartnettside",
+        storageBucket: "kartnettside.firebasestorage.app",
+        messagingSenderId: "495949813180",
+        appId: "1:495949813180:web:9f74f5c0e9dfef1f03c7b9",
+        measurementId: "G-W7JZWMQ4ZY"
+        });
+        const auth = getAuth(app);
+        
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+            // not signed in → send back to login
+            window.location.replace("./Login.html");
+            }
+        });
+    </script>
 </body>
 </html>

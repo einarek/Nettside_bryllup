@@ -10,10 +10,22 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f5f5;
+    font-family: montserrat, sans-serif;
+    font-weight: 200;
+    font-style: light;
+
+    background-color: #becfbc;
     color: #333;
 }
+
+.section-title{
+  font-weight: 200;
+  color: #2b2b2b;
+  margin: 0 0 1.25rem;
+  
+}
+
+
 
 /* Title */
 
@@ -84,6 +96,12 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     justify-content: center;
     color: hsla(108, 50%, 34%, 0.5);
+    font-family: coordinates, monospace;
+    font-weight: 300;
+    font-style: normal;
+
+    
+
 }
 
 .countdown-container {
@@ -94,24 +112,120 @@ body {
   color: #145d28;
   padding: 12px 18px;
   border-radius: 10px;
-  font-family: Arial, sans-serif;
+  
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   z-index: 9999;
   text-align: center;
+  font-family: coordinates, monospace;
+  font-weight: 300;
+  font-style: normal;
+
 }
 
 .countdown-label {
   font-size: 0.9em;
   margin: 0 0 5px 0;
   color: #333;
+  font-family: montserrat, sans-serif;
+  
 }
 
 .countdown {
   font-size: 1.4em;
-  font-weight: bold;
+  font-family: coordinates, monospace;
+  font-weight: 400;
+  font-style: normal;
+  color: #2b4236
+
 }
 
 
+
+/* Navigation Bar front page*/
+.navbarFP {
+    position: relative;
+    background-color: #ffffff;
+    height: 70px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+}
+
+.navbar__containerFP {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar__menuFP {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar__itemFP {
+    display: flex;
+    align-items: center;
+}
+
+.navbar__linksFP {
+    color: #000000;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 12px;
+    transition: background 0.3s, color 0.3s;
+    
+}
+
+.navbar__linksFP:hover {
+    background-color: #becfbc;
+    border-radius: 4px;
+}
+
+.navbar_logoFP {
+  height: 40px;    
+  width: auto;      /* adjust size as needed */
+  margin-right: 20px;    /* space between logo and menu */
+}
+
+.navbar_logo_linksFP {
+  margin-right: 20px;  /* spacing between logo and menu */
+  display: flex;       /* ensures image aligns nicely with menu */
+  align-items: center;
+}
+
+
+
+/* Sign up Button */
+.navbar__btnFP .button {
+    background-color: #becfbc;
+    color: #000000;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: normal;
+    transition: background 0.3s;
+    top: 8px;
+    position: relative;
+}
+
+.navbar__btnFP .button:hover {
+    background-color: #42573f;
+}
+
+.navbarFP__logo {
+    height: 50px;
+    margin-right: auto;
+   
+}
 
 /* Navigation Bar */
 .navbar {
@@ -125,7 +239,7 @@ body {
 }
 
 .navbar__container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     width: 100%;
     padding: 0 20px;
@@ -137,7 +251,9 @@ body {
 .navbar__menu {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 40px;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar__item {
@@ -146,35 +262,48 @@ body {
 }
 
 .navbar__links {
-    color: #34924d;
+    color: #000401;
     text-decoration: none;
     font-size: 16px;
     padding: 8px 12px;
     transition: background 0.3s, color 0.3s;
+    
 }
 
 .navbar__links:hover {
-    background-color: #86df99;
+    background-color: #becfbc;
     border-radius: 4px;
+}
+
+.navbar_logo {
+  height: 40px;    
+  width: auto;      /* adjust size as needed */
+  margin-right: 20px;    /* space between logo and menu */
+}
+
+.navbar_logo_links {
+  margin-right: 20px;  /* spacing between logo and menu */
+  display: flex;       /* ensures image aligns nicely with menu */
+  align-items: center;
 }
 
 
 
 /* Sign up Button */
 .navbar__btn .button {
-    background-color: #34924d;
-    color: #fff;
+    background-color: #becfbc;
+    color: #000000;
     padding: 8px 16px;
     border-radius: 4px;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: normal;
     transition: background 0.3s;
     top: 8px;
     position: relative;
 }
 
 .navbar__btn .button:hover {
-    background-color: #86df99;
+    background-color: #42573f;
 }
 
 .navbar__logo {
@@ -188,6 +317,7 @@ body {
   width: 100%;
   overflow: hidden;
   border-radius: 10px;
+  background-color: #ffffff;
 }
 
 .carousel-track {
@@ -210,13 +340,14 @@ body {
 
 /* Map */
 #map {
-  width: 600px;
-  height: 600px;
+  width: 1000px;
+  height: 300px;
   margin-left: auto;
   margin-right: 0;
   display: block;
   border: 1px solid #ccc;
   border-radius: 8px;
+  flex:1;
 }
 
 /* Login box */
@@ -244,6 +375,207 @@ body {
   border-radius: 4px;
 }
 
+/* FAQ */
+
+:root{
+  --green: #6bbf4e;
+  --text: #2b2b2b;
+  --muted: #8a8f98;
+  --divider: #e6e8eb;
+  --radius: 8px;
+}
+
+.container{
+  max-width: 820px;
+  padding: 2rem 1.25rem 3rem;
+  margin: 0 auto;
+}
+
+.faq-list{
+  border: 1px solid var(--divider);
+  border-radius: var(--radius);
+  overflow: hidden; /* clean edges for first/last divider */
+}
+
+/* Each item gets a top divider except the first */
+.faq-item{
+  border-top: 1px solid var(--divider);
+  background-color: #ffffff;
+  font-size: large;
+  
+}
+.faq-item:first-of-type{
+  border-top: 0;
+}
+
+/* Remove default disclosure marker in all engines */
+.faq-item summary{
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker{ display: none; }
+
+/* Summary (question) row */
+.faq-item > summary{
+  position: relative;
+  padding: 1.25rem 2.5rem 1.25rem 1.25rem;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+/* Right chevron */
+.faq-item > summary::after{
+  content: "";
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: translateY(-50%) rotate(-45deg);
+  transition: transform .2s ease, border-color .2s ease;
+}
+
+/* Focus/hover affordances */
+.faq-item > summary:hover{
+  background: #fafbfc;
+}
+.faq-item > summary:focus-visible{
+  outline: 2px solid color-mix(in oklab, var(--green) 60%, white);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Open state: rotate chevron */
+.faq-item[open] > summary::after{
+  transform: translateY(-50%) rotate(135deg);
+  border-color: var(--green);
+}
+
+/* Answer panel */
+.answer{
+  padding: 0 1.25rem 1rem 1.25rem;
+  color: #4b4f56;
+  font-size: medium;
+  font-style:oblique;
+  background-color: #ecf2ed;
+}
+
+/* Optional: smoother reveal without JS (height animation trick) */
+.faq-item .answer{
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .25s ease;
+}
+.faq-item[open] .answer{
+  grid-template-rows: 1fr;
+}
+.faq-item .answer > *{
+  overflow: hidden;
+  margin: 0;
+}
+
+/* Scroll på info*/
+
+
+:root { scroll-behavior: smooth; }
+
+/* Keep styles scoped to this component */
+.snap-wrapper {
+  --nav-height: 64px; /* adjust to match your existing navbar */
+
+  position: relative;
+  box-sizing: border-box;
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  height: calc(100svh - var(--nav-height));
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scroll-snap-type: y mandatory;
+  border-radius: 1rem;
+  border: 1px solid hsl(0 0% 80% / 0.5);
+  background: hsl(0 0% 100% / 0.6);
+  backdrop-filter: blur(6px);
+}
+
+.slide {
+  scroll-snap-align: start;
+  min-height: calc(100svh - var(--nav-height));
+  display: grid;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  padding: 2rem clamp(1rem, 3vw, 2rem);
+  border-bottom: 1px solid hsl(0 0% 90% / .8);
+  background: white;
+}
+
+.slide:nth-child(odd){ background: hsl(210 40% 98%); }
+
+.slide h2 { margin: 0 0 .5rem; font-size: clamp(1.25rem, 3.2vw, 2rem); }
+.slide p { margin: 0; font-size: clamp(1rem, 2.2vw, 1.125rem); color: hsl(0 0% 15% / .9); }
+
+.slide-footer {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  margin-top: 1.5rem; font-size: .95rem; color: hsl(0 0% 35%);
+}
+
+.cta {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .65rem .9rem; border-radius: .75rem; border: 1px solid hsl(0 0% 80% / .7);
+  background: white; box-shadow: 0 8px 20px -14px hsl(0 0% 10% / .25);
+  text-decoration: none; color: inherit;
+}
+
+/* Right-side pager dots */
+.pager {
+  position: sticky; top: .75rem; align-self: flex-start; z-index: 2;
+  display: flex; flex-direction: column; gap: .5rem; padding: .75rem; margin-left: auto; margin-right: .5rem;
+  background: hsl(0 0% 100% / .85); border: 1px solid hsl(0 0% 85% / .9); border-radius: 999px;
+}
+.pager button {
+  width: .65rem; height: .65rem; border-radius: 999px; border: 0;
+  background: hsl(0 0% 60% / .5); cursor: pointer;
+}
+.pager button[aria-current="true"] { background: hsl(222 84% 56%); }
+
+/* Loader bar at the very bottom slide */
+.tail-loader { text-align: center; padding: 1rem; color: hsl(0 0% 35%); }
+.hide { display: none; }
+
+/* Optional skeleton for lazy-loaded slides */
+.skeleton { position: relative; overflow: hidden; }
+.skeleton::after{
+  content: ""; position: absolute; inset: 0; translate: -100% 0;
+  background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.6), transparent);
+  animation: shimmer 1.25s infinite;
+}
+@keyframes shimmer { 100% { translate: 100% 0 } }
+
+/* Accessibility helper */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+.text-box {
+  flex: 1;             /* take 50% width */
+  padding: 20px;
+  text-align: center;  
+}
+
+.text-box h2 {
+  text-align: center;     /* centers the text horizontally */
+  font-size: 2rem;        /* adjust size */
+  font-weight: bold;      
+  color: #333;            /* dark gray */
+  margin-bottom: 20px;    /* space below the heading */
+  text-transform: uppercase; /* optional: ALL CAPS */
+  letter-spacing: 2px;    /* optional: spacing between letters */
+}
+
+.page-layout {
+  display: flex;
+    /* full viewport height */
+}
 
 /* Responsive */
 /* This is used for moble devices. Only activates on small screens, where the width is 768px or less */

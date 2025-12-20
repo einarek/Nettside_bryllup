@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RSVP Admin</title>
+
+  <!-- Optional font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1020; --card:#12172a; --text:#e7eaf3; --muted:#a6aec9; --border:#232a46; --accent:#6ea8fe; --ok:#17c964; --danger:#ff6b6b;
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#f6f7fb; --card:#ffffff; --text:#0e1320; --muted:#5a6178; --border:#e6e8f0; --accent:#4c7dff; --ok:#0ea85d; --danger:#e14d4d }
+    }
+    *{ box-sizing:border-box }
+    body{ margin:0; font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--text) }
+    .wrap{ max-width:1100px; margin:40px auto; padding:0 16px }
+    h1{ margin:0 0 8px; font-size:clamp(1.4rem, 1rem + 2vw, 2rem) }
+    .sub{ margin:0 0 18px; color:var(--muted) }
+
+    .card{ background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px; }
+
+    .summary{ display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; margin-bottom:14px }
+    .tile{ padding:14px; border:1px solid var(--border); border-radius:12px; background:color-mix(in oklab, var(--card), black 4%); }
+    .tile h3{ margin:0; font-size:.95rem; color:var(--muted) }
+    .tile .num{ margin-top:6px; font-size:1.6rem; font-weight:600 }
+    .yes .num{ color: var(--ok) }
+    .no .num{ color: var(--danger) }
+
+    .grid-2{ display:grid; grid-template-columns: 1.1fr .9fr; gap:16px; margin-top:16px }
+    @media (max-width: 900px){ .grid-2{ grid-template-columns: 1fr; } }
+
+    .list{ list-style:disc; padding-left:18px; margin:8px 0 0 }
+    .list li{ margin:4px 0 }
+
+    .actions{ display:flex; gap:10px; align-items:center; justify-content:space-between; margin:18px 0 8px }
+    .left-actions{ display:flex; gap:10px; align-items:center }
+
+    input[type="search"]{
+      padding:9px 12px; border:1px solid var(--border); border-radius:10px; background:transparent; color:var(--text); width:260px;
+    }
+    .btn{
+      padding:10px 14px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text); cursor:pointer;
+    }
+    .btn.primary{
+      border-color:transparent; background:linear-gradient(180deg, var(--accent), color-mix(in oklab, var(--accent), white 20%)); color:#071021; font-weight:600;
+    }
+
+    table{ width:100%; border-collapse:collapse; border-radius:14px; overflow:hidden; border:1px solid var(--border); }
+    thead{ background:color-mix(in oklab, var(--card), black 6%); }
+    th, td{ padding:10px 12px; border-bottom:1px solid var(--border); text-align:left; font-size:.95rem }
+    tbody tr:hover{ background:color-mix(in oklab, var(--card), white 6%); }
+    .muted{ color:var(--muted) }
+    .badge{ display:inline-block; padding:.15rem .5rem; border-radius:.6rem; font-size:.85rem; border:1px solid var(--border) }
+    .badge.yes{ color:var(--ok); border-color:color-mix(in oklab, var(--ok), transparent 50%) }
+    .badge.no{ color:var(--danger); border-color:color-mix(in oklab, var(--danger), transparent 50%) }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>RSVP — Admin</h1>
+    <p class="sub">Oversikt over alle personer (flatet ut fra svarene).</p>
+
+    <div class="summary">
+      <div class="tile"><h3>Parter (innsendte skjema)</h3><div class="num" id="partiesCount">0</div></div>
+      <div class="tile"><h3>Personer totalt</h3><div class="num" id="peopleCount">0</div></div>
+      <div class="tile yes"><h3>Ja</h3><div class="num" id="yesCount">0</div></div>
+      <div class="tile no"><h3>Nei</h3><div class="num" id="noCount">0</div></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <canvas id="attendingChart" width="600" height="320"></canvas>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 8px;">Allergier (ikke tomme)</h3>
+        <ul id="allergyList" class="list"><li class="muted">Ingen registrert</li></ul>
+      </div>
+    </div>
+
+    <div class="actions">
+      <div class="left-actions">
+        <input id="search" type="search" placeholder="Søk navn/allergi…" />
+      </div>
+      <div>
+        <button id="exportCsv" class="btn primary">Eksporter CSV (personer)</button>
+      </div>
+    </div>
+
+    <!-- NYTT KORT: Legg til gave -->
+    <div class="card" style="margin-top:16px; margin-bottom:16px;">
+      <h3 style="margin-top:0;">Legg til ny gave</h3>
+      <p class="muted" style="margin-bottom:12px;">Dette legges i <code>events / wedding1 / gifts</code>.</p>
+      <form id="giftForm" style="display:flex; gap:10px; flex-wrap:wrap;">
+        <input type="text" id="giftTitle" placeholder="Tittel (f.eks. Kjøkkenmaskin)" required
+              style="flex:1 1 200px; padding:8px 10px; border:1px solid var(--border); border-radius:10px; background:transparent; color:var(--text);">
+        <input type="text" id="giftDesc" placeholder="Beskrivelse (valgfritt)"
+              style="flex:1 1 200px; padding:8px 10px; border:1px solid var(--border); border-radius:10px; background:transparent; color:var(--text);">
+        <input type="file" id="giftImage" accept="image/*"
+              style="flex:1 1 200px; padding:6px 0; color:var(--muted);">
+        <input type="url" id="giftLink" placeholder="Lenke (valgfritt)"
+              style="flex:1 1 200px; padding:8px 10px; border:1px solid var(--border); border-radius:10px; background:transparent; color:var(--text);">
+        <input type="number" id="giftQty" placeholder="Antall" min="1" value="1"
+              style="width:110px; padding:8px 10px; border:1px solid var(--border); border-radius:10px; background:transparent; color:var(--text);">
+        <input type="number" id="giftPrio" placeholder="Prioritet" min="1" value="10"
+              style="width:120px; padding:8px 10px; border:1px solid var(--border); border-radius:10px; background:transparent; color:var(--text);">
+        <button type="submit" class="btn primary">Lagre gave</button>
+      </form>
+      <p id="giftMsg" class="muted" style="margin-top:10px; display:none;"></p>
+
+      <div id="giftListAdmin" style="margin-top:14px;">
+        <h4 style="margin:0 0 6px;">Eksisterende gaver</h4>
+        <ul id="giftListAdminUl" style="margin:0; padding-left:16px; line-height:1.4;"></ul>
+      </div>
+    </div>
+
+
+
+
+    <div class="card" style="padding:0;">
+      <table id="peopleTable">
+        <thead>
+          <tr>
+            <th>Fornavn</th>
+            <th>Etternavn</th>
+            <th>Allergi</th>
+            <th>Deltar?</th>
+            <th>Overnatting</th>
+            <th class="muted">Party</th>
+            <th class="muted">Innsendt</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <script type="module">
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+    import { getFirestore, collection, onSnapshot, query, orderBy, addDoc } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-storage.js";
+
+    // ---- CONFIG ----
+    const EVENT_ID = "wedding1"; // <— change if needed
+
+    // If you already initialize in a shared script, this safely reuses it
+   const app = initializeApp({
+        apiKey: "AIzaSyCS76udSJAebNHNaNTcvGVOdvLnU_1LJiI",
+        authDomain: "kartnettside.firebaseapp.com",
+        databaseURL: "https://kartnettside-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "kartnettside",
+        storageBucket: "kartnettside.firebasestorage.app",
+        messagingSenderId: "495949813180",
+        appId: "1:495949813180:web:9f74f5c0e9dfef1f03c7b9",
+        measurementId: "G-W7JZWMQ4ZY"
+        });
+
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+
+    const partiesCountEl = document.getElementById("partiesCount");
+    const giftForm      = document.getElementById("giftForm");
+    const giftTitleEl   = document.getElementById("giftTitle");
+    const giftDescEl    = document.getElementById("giftDesc");
+    const giftLinkEl    = document.getElementById("giftLink");
+    const giftQtyEl     = document.getElementById("giftQty");
+    const giftPrioEl    = document.getElementById("giftPrio");
+    const giftMsgEl     = document.getElementById("giftMsg");
+    const giftListAdminUl = document.getElementById("giftListAdminUl");
+    const giftImageEl   = document.getElementById("giftImage");
+    const peopleCountEl  = document.getElementById("peopleCount");
+    const yesCountEl     = document.getElementById("yesCount");
+    const noCountEl      = document.getElementById("noCount");
+    const allergyListEl  = document.getElementById("allergyList");
+    const tbody          = document.querySelector("#peopleTable tbody");
+    const exportBtn      = document.getElementById("exportCsv");
+    const searchInput    = document.getElementById("search");
+
+    let chart;
+    let allRows = [];     // person-level rows (for filter/export)
+    let partiesMeta = []; // party size and timestamp
+    
+    const ADMIN_UID = "BEXM9zvH8ePY1N82GUWe4yP5n6a2";
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user || user.uid !== ADMIN_UID) {
+        window.location.replace("./Login.html");
+        return;
+      }
+        initAdminListeners();
+    });
+
+    function initAdminListeners() {
+  // ... your existing admin page Firestore queries and rendering ...
+
+      const qRef = query(collection(db, "events", EVENT_ID, "rsvps"), orderBy("respondedAt", "desc"));
+      // --- GIFTS LISTENER (for admin) ---
+      const giftsRef = query(collection(db, "events", EVENT_ID, "gifts"), orderBy("priority", "asc"));
+      onSnapshot(giftsRef, (snap) => {
+        const gifts = [];
+        snap.forEach(doc => {
+          gifts.push({ id: doc.id, ...doc.data() });
+        });
+        renderAdminGiftList(gifts);
+      });
+      onSnapshot(qRef, (snap) => {
+        const people = [];
+        partiesMeta = [];
+        let yes = 0, no = 0;
+
+        snap.forEach((doc) => {
+          const data = doc.data();
+          const respondedAt = data.respondedAt?.toDate?.() || null;
+          const partyId = doc.id;
+          const ppl = Array.isArray(data.people) ? data.people : [];
+
+          partiesMeta.push({ id: partyId, size: ppl.length, respondedAt });
+
+          for (const p of ppl) {
+            const attendingBool = typeof p.attending === "boolean" ? p.attending : null;
+            if (attendingBool === true) yes++;
+            else if (attendingBool === false) no++;
+
+            const overnattingVal = (p.overnatting || "").toLowerCase();
+            let overnattingText = "—";
+            if (overnattingVal === "ja") overnattingText = "Ja";
+            else if (overnattingVal === "nei") overnattingText = "Nei";
+            else if (overnattingVal === "usikker") overnattingText = "Usikker";
+            
+            people.push({
+              firstName: p.firstName || "",
+              lastName:  p.lastName  || "",
+              allergy:   (p.allergy || "").trim(),
+              attending: attendingBool === true ? "Ja" : attendingBool === false ? "Nei" : "—",
+              overnatting: overnattingText,
+              partyId,
+              submitted: respondedAt ? respondedAt.toLocaleString() : "—",
+            });
+          }
+        });
+
+        // Save rows globally for filtering/export
+        allRows = people;
+
+        // Update tiles
+        partiesCountEl.textContent = partiesMeta.length;
+        peopleCountEl.textContent  = people.length;
+        yesCountEl.textContent     = yes;
+        noCountEl.textContent      = no;
+
+        // Render allergy list (ignore empty or 'ingen')
+        const allergies = people
+          .filter(r => r.allergy && !/^ingen$/i.test(r.allergy))
+          .map(r => `${r.firstName} ${r.lastName}: ${r.allergy}`);
+        allergyListEl.innerHTML = allergies.length
+          ? allergies.map(a => `<li>${escapeHtml(a)}</li>`).join("")
+          : `<li class="muted">Ingen registrert</li>`;
+
+        // Render table (with current filter, if any)
+        applyFilter();
+
+        // Update chart
+        const ctx = document.getElementById("attendingChart");
+        if (chart) chart.destroy();
+        chart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: ["Ja", "Nei"],
+            datasets: [{ label: "RSVP", data: [yes, no] }]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+          }
+        });
+      });
+
+      // CSV export (person-level)
+      exportBtn.addEventListener("click", () => {
+        const csv = toCsv(allRows.map(r => ({
+          firstName: r.firstName,
+          lastName:  r.lastName,
+          allergy:   r.allergy,
+          attending: r.attending,
+          overnatting: r.overnatting || "",   // ← NEW
+          partyId:   r.partyId,
+          submitted: r.submitted
+        })));
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `rsvps-people-${new Date().toISOString().slice(0,10)}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      // Filter
+      searchInput.addEventListener("input", applyFilter);
+    
+
+    function applyFilter(){
+      const q = searchInput.value.trim().toLowerCase();
+      const rows = q
+        ? allRows.filter(r =>
+            `${r.firstName} ${r.lastName}`.toLowerCase().includes(q) ||
+            r.allergy.toLowerCase().includes(q) ||
+            r.attending.toLowerCase().includes(q) ||
+            (r.overnatting || "").toLowerCase().includes(q)
+          )
+        : allRows;
+
+      tbody.innerHTML = rows.map(r => `
+        <tr>
+          <td>${escapeHtml(r.firstName)}</td>
+          <td>${escapeHtml(r.lastName)}</td>
+          <td>${escapeHtml(r.allergy || "")}</td>
+          <td>${r.attending === "Ja"
+                ? '<span class="badge yes">Ja</span>'
+                : r.attending === "Nei"
+                  ? '<span class="badge no">Nei</span>'
+                  : '<span class="badge">—</span>'}</td>
+          <td>${
+            r.overnatting === "Ja"
+              ? '<span class="badge yes">Ja</span>'
+              : r.overnatting === "Nei"
+                ? '<span class="badge no">Nei</span>'
+                : r.overnatting === "Usikker"
+                  ? '<span class="badge">Usikker</span>'
+                  : '<span class="badge">—</span>'
+          }</td>
+          <td class="muted">${escapeHtml(r.partyId)}</td>
+          <td class="muted">${escapeHtml(r.submitted)}</td>
+        </tr>
+      `).join("");
+    }
+
+    function renderAdminGiftList(gifts){
+      if (!giftListAdminUl) return;
+      if (!gifts.length){
+        giftListAdminUl.innerHTML = `<li class="muted">Ingen gaver lagt inn ennå.</li>`;
+        return;
+      }
+      giftListAdminUl.innerHTML = gifts.map(g => `
+        <li style="margin-bottom:8px;">
+          <strong>${escapeHtml(g.title || "Uten navn")}</strong>
+          ${g.quantity !== undefined ? ` — ${g.quantity} igjen` : ""}
+          ${g.description ? `<br><span class="muted">${escapeHtml(g.description)}</span>` : ""}
+          ${g.imageUrl ? `<br><img src="${escapeHtml(g.imageUrl)}" alt="" style="max-width:140px; margin-top:4px; border-radius:6px;">` : ""}
+        </li>
+      `).join("");
+    }
+
+
+
+    // Helpers
+    function toCsv(rows){
+      const headers = Object.keys(rows[0] || {firstName:"",lastName:"",allergy:"",attending:"",partyId:"",submitted:""});
+      const lines = [headers.join(",")];
+      for (const r of rows){
+        lines.push(headers.map(h => csvEscape(r[h] ?? "")).join(","));
+      }
+      return lines.join("\n");
+    }
+    function csvEscape(v){
+      const s = String(v).replace(/"/g, '""');
+      return /[",\n]/.test(s) ? `"${s}"` : s;
+    }
+    function escapeHtml(s){
+      return String(s)
+        .replaceAll("&","&amp;").replaceAll("<","&lt;")
+        .replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+    }
+    if (giftForm) {
+      giftForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        giftMsgEl.style.display = "none";
+
+        const title = giftTitleEl.value.trim();
+        const desc  = giftDescEl.value.trim();
+        const link  = giftLinkEl.value.trim();
+        const qty   = parseInt(giftQtyEl.value, 10) || 1;
+        const prio  = parseInt(giftPrioEl.value, 10) || 10;
+        const file  = giftImageEl.files[0] || null;
+
+        if (!title){
+          giftMsgEl.textContent = "Tittel må fylles ut.";
+          giftMsgEl.style.display = "block";
+          return;
+        }
+
+        try {
+          let imageUrl = "";
+
+          // 1) hvis det er bilde: last opp
+          if (file) {
+            // lag en noenlunde unik sti – f.eks. events/wedding1/gifts/<timestamp>-<filename>
+            const fileRef = ref(storage, `events/${EVENT_ID}/gifts/${Date.now()}-${file.name}`);
+            await uploadBytes(fileRef, file);
+            imageUrl = await getDownloadURL(fileRef);
+          }
+
+          // 2) lagre dokument i Firestore
+          await addDoc(collection(db, "events", EVENT_ID, "gifts"), {
+            title,
+            description: desc || "",
+            link: link || "",
+            quantity: qty,
+            priority: prio,
+            imageUrl: imageUrl,     // ← NYTT
+            createdAt: new Date()
+          });
+
+          giftMsgEl.textContent = "Gave lagret ✅";
+          giftMsgEl.style.display = "block";
+
+          // clear
+          giftTitleEl.value = "";
+          giftDescEl.value  = "";
+          giftLinkEl.value  = "";
+          giftQtyEl.value   = "1";
+          giftPrioEl.value  = "10";
+          giftImageEl.value = "";   // tømmer file-inputen
+        } catch (err) {
+          console.error("Feil ved lagring av gave:", err);
+          giftMsgEl.textContent = "Kunne ikke lagre gave: " + (err.code || err.message);
+          giftMsgEl.style.display = "block";
+        }
+      });
+    }
+
+
+  }
+  </script>
+</body>
+</html>
