@@ -34,7 +34,7 @@ body {
 .title {
     position: relative;
     background-color: #ffffff;
-    height: 120px;
+    height: 80px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -43,7 +43,8 @@ body {
 }
 
 .title img {
-    width: 22%;
+    width: 25%;
+    height: 80px;
     
 }
 
@@ -141,6 +142,8 @@ body {
 
 
 
+
+
 /* Navigation Bar front page*/
 .navbarFP {
     position: relative;
@@ -150,6 +153,7 @@ body {
     display: flex;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 10;
 
 }
 
@@ -313,11 +317,37 @@ body {
 }
 
 /* Image carousel */
+.carousel-hero {
+  position: relative;   /* makes overlay position relative to this box */
+  width: 100%;
+  height: 60vh;         /* choose carousel height */
+  min-height: 400px;    /* optional */
+  overflow: hidden;
+}
+
 .carousel-container {
   width: 100%;
   overflow: hidden;
   border-radius: 10px;
   background-color: #ffffff;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+}
+
+.carousel-overlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;                    /* middle part of the carousel */
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;        /* so overlay never blocks swipes/clicks if you add them */
+}
+.carousel-overlay img {
+  max-width: min(500px, 85vw);
+  height: auto;
+  display: block;
 }
 
 .carousel-track {
@@ -330,8 +360,8 @@ body {
 }
 
 .carousel-slide img {
-  width: 300px;
-  height: 350px;
+  width: 340px;
+  height: 400px;
   object-fit: cover;
   margin-right: 10px;
   border-radius: 5px;
