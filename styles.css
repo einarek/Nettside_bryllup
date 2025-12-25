@@ -6,10 +6,11 @@
 }
 
 body {
+    min-height: 100svh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: stretch;
     font-family: montserrat, sans-serif;
     font-weight: 200;
     font-style: light;
@@ -122,6 +123,21 @@ body {
   font-style: normal;
 
 }
+
+@media (max-width: 700px){
+  .countdown-container{
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    bottom: 12px;
+    padding: 10px 14px;
+    border-radius: 12px;
+  }
+  .countdown{
+    font-size: 1.1em;
+  }
+}
+
 
 .countdown-container_overnatting {
   position: fixed;
@@ -278,6 +294,22 @@ body {
     padding: 0;
 }
 
+@media (max-width: 768px){
+  .navbar__menu{
+    gap: 8px;
+  }
+  .navbar_logo{
+    height: 34px;
+  }
+}
+
+@media (max-width: 900px){
+  .navbar__menu{
+    flex-wrap: wrap;
+    gap: 10px 14px;
+  }
+}
+
 .navbar__item {
     display: flex;
     align-items: center;
@@ -309,6 +341,17 @@ body {
   align-items: center;
 }
 
+.info_bilde{
+  width: 100%;
+  display: flex;
+  justify-content: center; /* horizontal center */
+  padding: 1.5rem 0;
+}
+
+.info_bilde img{
+  max-width: 60%;
+  height: auto;
+}
 
 
 /* Sign up Button */
@@ -377,25 +420,23 @@ body {
   display: flex;
 }
 
-.carousel-slide img {
-  width: 300px;
-  height: 340px;
+
+.carousel-slide img{
+  width: clamp(220px, 70vw, 300px);
+  height: clamp(240px, 70vw, 340px);
   object-fit: cover;
   margin-right: 10px;
   border-radius: 5px;
 }
 
-
 /* Map */
-#map {
-  width: 1000px;
+#map{ 
+  width: 100%;
+  max-width: 1000px;
   height: 300px;
-  margin-left: auto;
-  margin-right: 0;
-  display: block;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  flex:1;
+}
+@media (max-width: 700px){
+  #map{ height: 240px; }
 }
 
 /* Login box */
@@ -425,6 +466,63 @@ body {
 
 /* FAQ */
 
+.faq-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+@media (max-width: 1100px){
+  .faq-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px){
+  .faq-grid{
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 700px){
+  .faq-item > summary{
+    padding: 1rem 2.25rem 1rem 1rem;
+    font-size: 1rem;
+  }
+  .answer{
+    padding: 0 1rem 1rem 1rem;
+  }
+}
+
+.faq-box{
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 16px;
+  padding: 18px 18px 10px;
+  background: #fff;
+}
+
+.faq-box__title{
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+
+/* Optional: keep items nicely separated inside each box */
+.faq-box .faq-item{
+  border-top: 1px solid rgba(0,0,0,0.08);
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.faq-box .faq-item:first-of-type{
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+
 :root{
   --green: #6bbf4e;
   --text: #2b2b2b;
@@ -434,9 +532,10 @@ body {
 }
 
 .container{
-  max-width: 820px;
+  max-width: 1220px;
   padding: 2rem 1.25rem 3rem;
   margin: 0 auto;
+  width: 100%;
 }
 
 .faq-list{
