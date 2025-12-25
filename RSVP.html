@@ -73,6 +73,50 @@
 
   .th {white-space: nowrap;} /* keeps header text on one line */
 
+  @media (max-width: 900px){
+    /* Make the form card fit the screen */
+    .card{
+        padding: 16px;
+    }
+
+    /* Stack form fields vertically */
+    .grid{
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    /* Make headers readable on mobile */
+    .th{
+        font-size: 0.85rem;
+        text-align: left;
+        padding: 4px 2px;
+    }
+
+    /* Inputs & selects full width */
+    input[type="text"],
+    select{
+        width: 100%;
+    }
+
+    /* Remove button aligned nicely */
+    .row .remove{
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Action buttons stack */
+    .actions{
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .actions .btn{
+        width: 100%;
+        justify-content: center;
+    }
+    }
+
+
 </style>
 <body>   
     <nav class="navbar">    
