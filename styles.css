@@ -825,6 +825,21 @@ body {
   .carousel-container{
     border-radius: 0;     /* optional: cleaner edge-to-edge */
   }
+
+  .carousel-container,
+  .carousel-track,
+  .carousel-slide{
+    height: 100%;
+  }
+
+  .carousel-slide img{
+    height: 100%;
+    width: auto;
+    max-width: 92vw;
+    object-fit: cover;
+    border-radius: 0;
+    margin-right: 10px;
+  }
 }
 
 @media (max-width: 700px){
