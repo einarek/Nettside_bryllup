@@ -124,19 +124,7 @@ body {
 
 }
 
-@media (max-width: 700px){
-  .countdown-container{
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    bottom: 12px;
-    padding: 10px 14px;
-    border-radius: 12px;
-  }
-  .countdown{
-    font-size: 1.1em;
-  }
-}
+
 
 
 .countdown-container_overnatting {
@@ -294,21 +282,7 @@ body {
     padding: 0;
 }
 
-@media (max-width: 768px){
-  .navbar__menu{
-    gap: 8px;
-  }
-  .navbar_logo{
-    height: 34px;
-  }
-}
 
-@media (max-width: 900px){
-  .navbar__menu{
-    flex-wrap: wrap;
-    gap: 10px 14px;
-  }
-}
 
 .navbar__item {
     display: flex;
@@ -435,9 +409,7 @@ body {
   max-width: 1000px;
   height: 300px;
 }
-@media (max-width: 700px){
-  #map{ height: 240px; }
-}
+
 
 /* Login box */
 .login-box {
@@ -471,29 +443,6 @@ body {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
   margin-top: 24px;
-}
-
-@media (max-width: 1100px){
-  .faq-grid{
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 700px){
-  .faq-grid{
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-}
-
-@media (max-width: 700px){
-  .faq-item > summary{
-    padding: 1rem 2.25rem 1rem 1rem;
-    font-size: 1rem;
-  }
-  .answer{
-    padding: 0 1rem 1rem 1rem;
-  }
 }
 
 .faq-box{
@@ -726,24 +675,92 @@ body {
 
 /* Responsive */
 /* This is used for moble devices. Only activates on small screens, where the width is 768px or less */
-@media (max-width: 768px) {
-    .navbar__container {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+@media (max-width: 768px){
+  .navbar{
+    height: auto;
+  }
 
-    .navbar__menu {
-        flex-direction: column;
-        gap: 10px;
-        width: 100%;
-    }
+  .navbar__container{
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 12px;
+    padding: 10px;
+  }
 
-    .navbar__item, .navbar__btn {
-        width: 100%;
-    }
+  .navbar_logo_links{
+    width: 100%;
+    justify-content: center;
+    margin-right: 0;
+  }
 
-    .navbar__links, .navbar__btn .button {
-        width: 100%;
-        text-align: left;
-    }
+  .navbar__menu{
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 14px;
+    width: 100%;
+  }
+
+  .navbar__item,
+  .navbar__btn{
+    width: auto;
+  }
+
+  .navbar__links{
+    padding: 6px 10px;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+
+  .navbar__btn .button{
+    padding: 6px 14px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 700px){
+  .countdown-container{
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    bottom: 12px;
+    padding: 10px 14px;
+    border-radius: 12px;
+  }
+  .countdown{
+    font-size: 1.1em;
+  }
+}
+
+@media (max-width: 700px){
+  #map{ height: 240px; }
+}
+
+
+@media (max-width: 1100px){
+  .faq-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px){
+  .faq-grid{
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 700px){
+  .faq-item > summary{
+    padding: 1rem 2.25rem 1rem 1rem;
+    font-size: 1rem;
+  }
+  .answer{
+    padding: 0 1rem 1rem 1rem;
+  }
+}
+
+@media (hover: none){
+  .navbar__links:hover{
+    background-color: transparent;
+  }
 }
