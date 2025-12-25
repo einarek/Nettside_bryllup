@@ -35,7 +35,8 @@ body {
 .title {
     position: relative;
     background-color: #ffffff;
-    height: 70px;
+    height: 90px;           /* allow banner to size itself */
+    padding: 0;
     width: 100%;
     display: flex;
     align-items: center;
@@ -43,11 +44,15 @@ body {
     justify-content: center;
 }
 
-.title img {
-    width: 20%;
-    height: 70px;
-    
+
+
+.title img{
+  height: 100%;
+  width: auto;                 /* keeps aspect ratio */
+  max-width: 90%;
+  object-fit: contain;
 }
+
 
 /* Title date */
 .title_date {
@@ -91,7 +96,7 @@ body {
 #countdown_front_page {
     position: relative;
     background-color: #ffffff;
-    height: 70px;
+    height: auto;
     width: 100%;
     display: flex;
     align-items: center;
@@ -101,6 +106,7 @@ body {
     font-family: coordinates, monospace;
     font-weight: 300;
     font-style: normal;
+    padding: 12px;
 
     
 
@@ -763,4 +769,82 @@ body {
   .navbar__links:hover{
     background-color: transparent;
   }
+}
+
+@media (max-width: 768px){
+  .navbarFP{
+    height: auto;
+  }
+
+  .navbar__containerFP{
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 12px;
+    padding: 10px;
+  }
+
+  .navbar__menuFP{
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 14px;
+    width: 100%;
+  }
+
+  .navbar__linksFP{
+    padding: 6px 10px;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+
+  .navbar__btnFP .button{
+    padding: 6px 14px;
+    font-size: 0.95rem;
+    top: 0;               /* remove the nudge on mobile */
+    position: static;
+  }
+}
+
+@media (max-width: 700px){
+  .carousel-hero{
+    height: 52svh;        /* better on mobile browser UI */
+    min-height: 260px;
+  }
+
+  .carousel-container{
+    border-radius: 0;     /* optional: cleaner edge-to-edge */
+  }
+}
+
+@media (max-width: 700px){
+  .carousel-overlay img{
+    max-width: 78vw;
+  }
+}
+
+
+
+@media (max-width: 700px){
+  #countdown_front_page{
+    padding: 10px 12px;
+  }
+  #countdown_front_page .countdown{
+    font-size: 1.1em;
+    text-align: center;
+  }
+}
+
+@media (max-width: 700px){
+  .title{
+    height: 56px;              /* smaller on phone */
+    padding: 4px 8px;
+  }
+
+  .title img{
+    max-width: 100%;
+  }
+}
+
+
+html, body{
+  overflow-x: hidden;
 }
