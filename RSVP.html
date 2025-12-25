@@ -116,6 +116,47 @@
     }
     }
 
+    /* Desktop: hide the per-field labels (you already have header row) */
+    .m-label{
+    display: none;
+    font-size: .85rem;
+    color: var(--muted);
+    margin: 0 0 4px;
+    }
+
+    /* Mobile layout */
+    @media (max-width: 900px){
+    /* Hide the desktop header row on mobile (it doesn't align anymore) */
+    .grid > .th{ display: none; }
+
+    /* Stack each row into a "card-like" block */
+    .row{
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 12px;
+        background: #fff;
+    }
+
+    /* Make fields vertical + show labels */
+    .grid.row{
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .m-label{ display: block; }
+
+    .field{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .row .remove{
+        width: 100%;
+        text-align: center;
+    }
+    }
+
+
 
 </style>
 <body>   
@@ -233,22 +274,43 @@
             const row = document.createElement("div");
             row.className = "grid row";
             row.innerHTML = `
-            <input type="text" class="firstName" placeholder="Kari" value="${escapeAttr(data.firstName || "")}" required>
-            <input type="text" class="lastName" placeholder="Nordmann" value="${escapeAttr(data.lastName || "")}" required>
-            <input type="text" class="allergy" placeholder="Peanøtter / &quot;ingen&quot;" value="${escapeAttr(data.allergy || "")}">
-            <select class="attending" required>
+            <div class="field">
+                <div class="m-label">Fornavn</div>
+                <input type="text" class="firstName" placeholder="Kari" value="${escapeAttr(data.firstName || "")}" required>
+            </div>
+
+            <div class="field">
+                <div class="m-label">Etternavn</div>
+                <input type="text" class="lastName" placeholder="Nordmann" value="${escapeAttr(data.lastName || "")}" required>
+            </div>
+
+            <div class="field">
+                <div class="m-label">Allergi</div>
+                <input type="text" class="allergy" placeholder="Peanøtter / &quot;ingen&quot;" value="${escapeAttr(data.allergy || "")}">
+            </div>
+
+            <div class="field">
+                <div class="m-label">Deltar?</div>
+                <select class="attending" required>
                 <option value="">-- velg --</option>
                 <option value="yes"${data.attending === true ? " selected" : ""}>Ja</option>
                 <option value="no"${data.attending === false ? " selected" : ""}>Nei</option>
-            </select>
-            <select class="overnatting">
+                </select>
+            </div>
+
+            <div class="field">
+                <div class="m-label">Overnatting på Strand hotell?</div>
+                <select class="overnatting">
                 <option value="">-- velg --</option>
                 <option value="ja"${data.overnatting === "ja" ? " selected" : ""}>Ja</option>
                 <option value="nei"${data.overnatting === "nei" ? " selected" : ""}>Nei</option>
                 <option value="usikker"${data.overnatting === "usikker" ? " selected" : ""}>Usikker</option>
-            </select>
+                </select>
+            </div>
+
             <button type="button" class="remove" title="Fjern rad">Fjern</button>
             `;
+
             row.querySelector(".remove").addEventListener("click", () => {
             row.remove();
             ensureAtLeastOneRow();
