@@ -6,15 +6,19 @@
   <title>Gaveønsker</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/png" href="Images/logo_svart.png">
-  
+  <meta name="color-scheme" content="only light">
+
   <link rel="stylesheet" href="https://use.typekit.net/qsc8tmo.css">
 
   <style>
+    
     :root{
-      --bg:#0b1020; --card:#12172a; --text:#e7eaf3; --muted:#a6aec9; --border:#232a46; --accent:#6ea8fe; --danger:#ff6b6b;
-    }
-    @media (prefers-color-scheme: light){
-      :root{ --bg:#f6f7fb; --card:#ffffff; --text:#0e1320; --muted:#5a6178; --border:#e6e8f0; --accent:#4c7dff }
+      --card: #ffffff;
+      --text: #0e1320;
+      --muted: #5a6178;
+      --border: #e6e8f0;
+      --accent: #4c7dff;
+      --danger: #ff6b6b;
     }
    
 
@@ -72,6 +76,8 @@
     margin-top: 0;
     }
 
+    
+
     /* mobile: stack left/right */
     @media (max-width: 520px) {
     .gift-content {
@@ -99,7 +105,8 @@
       display:flex;
       flex-direction:column;
       gap:10px;
-      box-shadow:0 18px 40px rgba(0,0,0,.25);
+      box-shadow:0 18px 40px rgba(0,0,0,.12);
+      color: var(--text);
     }
     .gift-title{ font-weight:600; font-size:1.05rem; }
     .gift-desc{ color:var(--muted); font-size:.92rem; }
@@ -107,8 +114,8 @@
       display:inline-block;
       background: #d9e3d6;
       
-      border:1px solid rgba(110,168,254,0.5);
-      color:var(--text);
+      border: 1px solid rgba(0,0,0,0.12);
+      color: #0e1320;
       border-radius:999px;
       padding:3px 10px;
       font-size:.78rem;
@@ -231,7 +238,7 @@
         padding: 10px 14px;
         border-radius: 12px;
         z-index: 9999;
-      } 
+      }   
     }
 
 
