@@ -881,3 +881,18 @@ html, body{
     top: calc(80px + 55px); /* base + one wrapped row */
   }
 }
+
+@media (max-width: 700px){
+  .countdown-container{
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    bottom: 12px;
+  }
+
+  /* Add breathing room at bottom for all pages */
+  body{
+    padding-bottom: 90px; /* adjust to countdown height */
+  }
+}
+
