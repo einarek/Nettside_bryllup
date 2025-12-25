@@ -860,3 +860,9 @@ body {
 html, body{
   overflow-x: hidden;
 }
+
+@media (max-width: 768px){
+  .countdown-container_overnatting{
+    top: calc(80px + 48px); /* base + one wrapped row */
+  }
+}
