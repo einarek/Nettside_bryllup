@@ -804,10 +804,22 @@ body {
   }
 }
 
+:root{
+  --title-h: 80px;
+  --nav-h: 70px;
+  --countdown-h: 70px;
+}
+
+
 @media (max-width: 700px){
+  :root{
+    --title-h: 56px;      /* your mobile title height */
+    --nav-h: 0px;         /* if navbar wraps, height becomes variable */
+    --countdown-h: 58px;  /* approx height of countdown bar */
+  }
   .carousel-hero{
-    height: 52svh;        /* better on mobile browser UI */
-    min-height: 260px;
+    height: calc(100svh - var(--title-h) - var(--countdown-h));
+    min-height: 360px;
   }
 
   .carousel-container{
