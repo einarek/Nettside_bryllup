@@ -892,7 +892,7 @@ html, body{
 
   /* Add breathing room at bottom for all pages */
   body{
-    padding-bottom: 200px; /* adjust to countdown height */
+    padding-bottom: 120px; /* adjust to countdown height */
   }
 }
 
