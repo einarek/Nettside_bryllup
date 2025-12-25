@@ -878,6 +878,6 @@ html, body{
 
 @media (max-width: 768px){
   .countdown-container_overnatting{
-    top: calc(80px + 48px); /* base + one wrapped row */
+    top: calc(80px + 55px); /* base + one wrapped row */
   }
 }
