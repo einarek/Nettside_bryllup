@@ -354,7 +354,15 @@
           gifts.push({ id: doc.id, ...doc.data() });
         });
         renderGifts(gifts);
-      });
+      },
+      (err) => {
+        console.error("onSnapshot error:", err);
+        errorEl.textContent = err.message.includes("permission")
+          ? "Du har ikke tilgang til å se gavene (mangler rettigheter)."
+          : "Kunne ikke hente gavelisten.";
+        errorEl.style.display = "block";
+      }
+    );
     }
 
     function renderGifts(gifts){
