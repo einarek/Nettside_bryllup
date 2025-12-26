@@ -457,10 +457,19 @@ async function actuallyTakeGift(card) {
       transaction.update(giftRef, { quantity: currentQty - 1 });
     });
   } catch (err) {
-    console.error(err);
+  console.error("reserve failed:", err, "code:", err?.code);
+
+  if (err?.code === "permission-denied") {
+    errorEl.textContent = "Du har ikke tilgang til å reservere gaver (mangler rettigheter).";
+  } else if (err?.message?.toLowerCase().includes("tomt")) {
+    errorEl.textContent = "Gaven er dessverre allerede tom.";
+  } else {
     errorEl.textContent = "Kunne ikke reservere gaven. Noen andre tok den kanskje akkurat nå.";
-    errorEl.style.display = "block";
   }
+
+  errorEl.style.display = "block";
+}
+
 }
 
 
