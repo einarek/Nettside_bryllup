@@ -359,7 +359,7 @@
                 const attVal    = row.querySelector(".attending").value;
                 const attending = attVal === "yes" ? true : (attVal === "no" ? false : null);
                 const overnatting = row.querySelector(".overnatting").value || null; // "ja" | "nei" | "usikker" | null
-                return { firstName, lastName, allergy, attending };
+                return { firstName, lastName, allergy, attending, overnatting };
             });
 
             // Validate: must have at least one complete row
