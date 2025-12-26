@@ -340,54 +340,59 @@
 
         onAuthStateChanged(auth, (user) => {
             if (!user) {
-            // not signed in → send back to login
-            window.location.replace("./Login.html");
-            return;
-            }
-        
-
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            errorEl.style.display = "none";
-            successEl.style.display = "none";
-
-            // Collect rows
-            const rows = Array.from(rowsEl.querySelectorAll(".row")).map(row => {
-                const firstName = row.querySelector(".firstName").value.trim();
-                const lastName  = row.querySelector(".lastName").value.trim();
-                const allergy   = row.querySelector(".allergy").value.trim();
-                const attVal    = row.querySelector(".attending").value;
-                const attending = attVal === "yes" ? true : (attVal === "no" ? false : null);
-                const overnatting = row.querySelector(".overnatting").value || null; // "ja" | "nei" | "usikker" | null
-                return { firstName, lastName, allergy, attending, overnatting };
-            });
-
-            // Validate: must have at least one complete row
-            const valid = rows.length > 0 && rows.every(r => r.firstName && r.lastName && typeof r.attending === "boolean");
-            if (!valid) {
-                errorEl.style.display = "block";
+                window.location.replace("./Login.html");
                 return;
             }
 
-            try {
-                // Write ONE document per submission with all people
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                errorEl.style.display = "none";
+                successEl.style.display = "none";
+
+                // Collect rows
+                const rows = Array.from(rowsEl.querySelectorAll(".row")).map(row => {
+                const firstName = row.querySelector(".firstName").value.trim();
+                const lastName  = row.querySelector(".lastName").value.trim();
+                const allergy   = row.querySelector(".allergy").value.trim();
+
+                const attVal    = row.querySelector(".attending").value;
+                const attending = attVal === "yes" ? true : (attVal === "no" ? false : null);
+
+                const overnatting = row.querySelector(".overnatting").value || null;
+
+                return { firstName, lastName, allergy, attending, overnatting };
+                });
+
+                // Validate: must have at least one complete row
+                const valid =
+                rows.length > 0 &&
+                rows.every(r => r.firstName && r.lastName && typeof r.attending === "boolean");
+
+                if (!valid) {
+                errorEl.style.display = "block";
+                return;
+                }
+
+                try {
                 await addDoc(collection(db, "events", "wedding1", "rsvps"), {
-                people: rows,
-                respondedAt: serverTimestamp()
+                    people: rows,
+                    respondedAt: serverTimestamp()
                 });
 
                 // Clear + show success
                 rowsEl.innerHTML = "";
                 rowsEl.appendChild(makeRow());
-                form.reset(); // resets selects in case browser keeps state
+                form.reset();
                 successEl.style.display = "block";
-            } catch (err) {
+                } catch (err) {
                 console.error(err);
-                errorEl.textContent = "Kunne ikke lagre. Prøv igjen.";
+                errorEl.textContent = `Kunne ikke lagre (${err.code || "ukjent"}). ${err.message || ""}`;
                 errorEl.style.display = "block";
-            }
+                }
+
             });
         });
+
     </script>
 </body>
 </html>
