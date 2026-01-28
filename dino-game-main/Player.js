@@ -9,7 +9,7 @@ export default class Player {
   JUMP_SPEED = 0.6;
   GRAVITY = 0.4;
 
-  constructor(ctx, width, height, minJumpHeight, maxJumpHeight, scaleRatio) {
+  constructor(ctx, width, height, minJumpHeight, maxJumpHeight, scaleRatio, assets) {
     this.ctx = ctx;
     this.canvas = ctx.canvas;
     this.width = width;
@@ -23,14 +23,15 @@ export default class Player {
     this.yStandingPosition = this.y;
 
     this.standingStillImage = new Image();
-    this.standingStillImage.src = new URL("./images/e_stille.jpg", import.meta.url).href;
+    this.standingStillImage.src = assets.standing;
     this.image = this.standingStillImage;
 
     const dinoRunImage1 = new Image();
-    dinoRunImage1.src = new URL("./images/e_løp_1.jpg", import.meta.url).href;
+    dinoRunImage1.src = assets.run1;
 
     const dinoRunImage2 = new Image();
-    dinoRunImage2.src = new URL("./images/e_løp_2.jpg", import.meta.url).href;
+    dinoRunImage2.src = assets.run2;
+
 
     this.dinoRunImages.push(dinoRunImage1);
     this.dinoRunImages.push(dinoRunImage2);

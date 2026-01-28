@@ -37,11 +37,23 @@ const GROUND_WIDTH = 2400;
 const GROUND_HEIGHT = 24;
 const GROUND_AND_CACTUS_SPEED = 0.5;
 
+const skinFolder = localStorage.getItem("selectedSkin") || "charA";
+
+// Helper to build URLs relative to THIS file (index.js)
+function assetUrl(file) {
+  // file example: "images/ground.png"
+  return new URL(`./${skinFolder}/${file}`, import.meta.url).href;
+}
+
 const CACTI_CONFIG = [
-  { width: 48 , height: 90 , image: new URL("./images/cactus_1.jpg", import.meta.url).href },
-  { width: 98 , height: 80 , image: new URL("./images/cactus_2.png", import.meta.url).href },
-  { width: 68 , height: 70 , image: new URL("./images/cactus_3.png", import.meta.url).href },
+  { width: 48, height: 90, image: assetUrl("images/cactus_1.png") },
+  { width: 98, height: 80, image: assetUrl("images/cactus_2.png") },
+  { width: 68, height: 70, image: assetUrl("images/cactus_3.png") },
 ];
+
+
+
+
 
 function getFinalScoreValue() {
   // Score is stored as a float that increases; show rounded integer like the scoreboard.
@@ -94,7 +106,12 @@ function createSprites() {
     playerHeightInGame,
     minJumpHeightInGame,
     maxJumpHeightInGame,
-    scaleRatio
+    scaleRatio,
+    {
+      standing: assetUrl("images/standing_still.png"),
+      run1: assetUrl("images/dino_run_1.png"),
+      run2: assetUrl("images/dino_run_2.png"),
+    }
   );
 
   ground = new Ground(
@@ -102,8 +119,13 @@ function createSprites() {
     groundWidthInGame,
     groundHeightInGame,
     GROUND_AND_CACTUS_SPEED,
-    scaleRatio
+    scaleRatio,
+    {
+      ground: assetUrl("images/ground.png"),
+    }
   );
+
+
 
   const cactiImages = CACTI_CONFIG.map((cactus) => {
     const image = new Image();
@@ -310,7 +332,7 @@ window.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const entry = { name, score: finalScoreInt(), ts: Date.now() };
+    const entry = { name, score: Number(finalScoreInt()), ts: Date.now() };
 
     await push(ref(db, "leaderboard"), entry);
 
