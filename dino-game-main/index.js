@@ -108,7 +108,7 @@ function createSprites() {
     maxJumpHeightInGame,
     scaleRatio,
     {
-      standing: assetUrl("images/standing_still.png"),
+      standing: assetUrl("images/dino_jump.png"),
       run1: assetUrl("images/dino_run_1.png"),
       run2: assetUrl("images/dino_run_2.png"),
     }
@@ -316,37 +316,41 @@ function finalScoreInt() {
   return Math.floor(score.score);
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+function onReady(fn) {
+  if (document.readyState === "loading") {
+    window.addEventListener("DOMContentLoaded", fn, { once: true });
+  } else {
+    fn();
+  }
+}
+
+onReady(() => {
+  // Submit score
   const form = document.getElementById("nameForm");
-  if (!form) return;
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+      const name = (document.getElementById("playerName")?.value || "").trim();
+      if (!name) return;
 
-    const name = (document.getElementById("playerName")?.value || "").trim();
-    if (!name) return;
+      const user = auth.currentUser;
+      if (!user) {
+        alert("Du må være logget inn for å sende inn score.");
+        return;
+      }
 
-    const user = auth.currentUser;
-    if (!user) {
-      alert("Du må være logget inn for å sende inn score.");
-      return;
-    }
+      const entry = { name, score: Number(finalScoreInt()), ts: Date.now() };
+      await push(ref(db, "leaderboard"), entry);
 
-    const entry = { name, score: Number(finalScoreInt()), ts: Date.now() };
+      window.location.href = "leaderboard.html";
+    });
+  }
 
-    await push(ref(db, "leaderboard"), entry);
-
-    // go to leaderboard page
-    window.location.href = "leaderboard.html";
-  });
-});
-
-window.addEventListener("DOMContentLoaded", () => {
+  // Play again button
   const playAgainBtn = document.getElementById("playAgainBtn");
   if (playAgainBtn) {
-    playAgainBtn.addEventListener("click", () => {
-      reset();
-    });
+    playAgainBtn.addEventListener("click", () => reset());
   }
 });
 
