@@ -861,6 +861,9 @@ body {
   object-fit: contain;
 }
 
+.game-page { text-align: center; }
+
+
 @media (max-width: 650px){
   .char-grid{ grid-template-columns: 1fr; }
   .char-card img{ height: 140px; }
