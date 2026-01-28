@@ -791,13 +791,21 @@ body {
   justify-content: space-between;
   align-items: center;
 
-  width: 100%;
+  width: 50%;
   box-sizing: border-box;
 
   padding: 10px 12px;
   background: #fff;
   border: 1px solid rgba(0,0,0,0.12);
   border-radius: 12px;
+}
+
+#playAgainBtn{
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.2);
+  background: #fff;
+  cursor: pointer;
 }
 
 
