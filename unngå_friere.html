@@ -1,0 +1,132 @@
+<!--  
+ulike spill:
+- timeguessr med ulike bilder vi har tatt 
+- 
+
+
+
+-->
+
+<!DOCTYPE html>
+<html lang="no">                                                                          <!-- Norwegian as the language -->
+
+<head>                                                                                    <!-- contains metadata and resources that aren’t displayed directly on the web page -->
+    <meta charset="UTF-8">                                                                <!-- Sets the character encoding to UTF-8, which supports most characters from all known languages. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">                <!-- Ensures the page is responsive by setting the viewport width to the device width and initial zoom to 1. -->
+    <title>Info</title>                                                                  <!-- Sets the browser tab title -->
+    <link rel="stylesheet" href="styles.css">                                              <!-- Links an external CSS file named style.css to style the HTML content -->
+    <link rel="icon" type="image/png" href="Images/logo_svart.png">
+    <link rel="stylesheet" href="https://use.typekit.net/qsc8tmo.css">
+</head>
+<body>   
+    <nav class="navbar">    
+                                                                     <!-- tells the browser (and screen readers, search engines, etc.) that the content inside is a navigation menu—typically links to main sections of the website-->
+        <div class="navbar__container"> 
+            <a href="./index.html" class="navbar_logo_links">                                           <!-- It’s a block-level container used to group elements together for styling or scripting (via CSS or JavaScript). -->
+                <img src="Images/logo_navbar.jpg" alt="Logo_navbar" class="navbar_logo"> 
+            </a>
+            <ul class="navbar__menu">
+                
+                <li class="navbar__item">
+                    <a href="./index.html" class="navbar__links">
+                        HJEM
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="./info.html" class="navbar__links">
+                        INFO OM DAGEN
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="./overnatting.html" class="navbar__links">
+                        OVERNATTING
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="./gavetips.html" class="navbar__links">
+                        GAVETIPS
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="./spill.html" class="navbar__links">
+                        SPILL
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="./FAQ.html" class="navbar__links">
+                        FAQ
+                    </a>
+                </li>
+                <li class="navbar__btn">
+                    <a href="./RSVP.html" class="button">
+                        RSVP
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container" style="text-align:center;">
+
+        <h1>Unngå friere 🦖</h1>
+        <p>Trykk mellomrom eller trykk på skjermen for å hoppe.</p>
+
+        <canvas id="game"></canvas>
+
+        <div id="gameOverPanel" class="gameover-panel" hidden>
+        <div class="gameover-row">
+            <div>
+            <div class="gameover-title">Game over!</div>
+            <div class="gameover-sub">Poeng: <span id="finalScore">0</span></div>
+            </div>
+
+            <form id="nameForm" class="gameover-form" autocomplete="off">
+            <input id="playerName" type="text" maxlength="24" placeholder="Skriv navnet ditt" required />
+            <button type="submit">Send inn</button>
+            </form>
+
+            <a class="leaderboard-link" href="leaderboard.html">Se leaderboard</a>
+        </div>
+        </div>
+
+
+        <!-- Dino game script -->
+        <script src="dino-game-main/index.js" type="module"></script>
+        <img src="dino-game-main/images/ground.png" width="100">
+
+
+
+    </main>
+
+
+    
+    
+    
+    <script src="app.js"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+
+        const app = initializeApp({
+        apiKey: "AIzaSyCS76udSJAebNHNaNTcvGVOdvLnU_1LJiI",
+        authDomain: "kartnettside.firebaseapp.com",
+        databaseURL: "https://kartnettside-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "kartnettside",
+        storageBucket: "kartnettside.firebasestorage.app",
+        messagingSenderId: "495949813180",
+        appId: "1:495949813180:web:9f74f5c0e9dfef1f03c7b9",
+        measurementId: "G-W7JZWMQ4ZY"
+        });
+        const auth = getAuth(app);
+        
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+            // not signed in → send back to login
+            window.location.replace("./Login.html");
+            }
+        });
+    </script>
+</body>
+</html>
