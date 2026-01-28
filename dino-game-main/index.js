@@ -319,3 +319,12 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+window.addEventListener("DOMContentLoaded", () => {
+  const playAgainBtn = document.getElementById("playAgainBtn");
+  if (playAgainBtn) {
+    playAgainBtn.addEventListener("click", () => {
+      reset();
+    });
+  }
+});
+
