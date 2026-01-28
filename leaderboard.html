@@ -69,13 +69,15 @@ ulike spill:
     <main class="container_leaderboard">
         <h1 class="section-title">Leaderboard</h1>
 
+        <div class="lb-actions">
+            <a class="lb-back-btn" href="./unngå_friere.html">← Tilbake til spillet</a>
+        </div>
+
         <div id="lbStatus" style="margin: 12px 0;">Laster…</div>
 
         <ol id="leaderboardList" class="leaderboard-list"></ol>
 
-        <p style="margin-top: 14px;">
-            <a href="./unngå_friere.html">← Tilbake til spillet</a>
-        </p>
+        
     </main>
 
     
@@ -125,7 +127,8 @@ ulike spill:
             statusEl.textContent = "Laster…";
             listEl.innerHTML = "";
 
-            const q = ref(db, "leaderboard");   // NO query, load everything
+            const q = query(ref(db, "leaderboard"), orderByChild("score"), limitToLast(20));
+
 
             if (unsubscribeLeaderboard) unsubscribeLeaderboard();
             unsubscribeLeaderboard = onValue(q, (snap) => {

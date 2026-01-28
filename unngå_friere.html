@@ -71,12 +71,12 @@ ulike spill:
             <p>Hvem vil du spille som?</p>
 
             <div class="char-grid">
-            <button class="char-card" data-skin="charA">
+            <button type="button" class="char-card" data-skin="charA">
                 <img src="dino-game-main/charA/images/choose.png" alt="Karakter A">
                 <span>Karakter A</span>
             </button>
 
-            <button class="char-card" data-skin="charB">
+            <button type="button" class="char-card" data-skin="charB">
                 <img src="dino-game-main/charB/images/choose.png" alt="Karakter B">
                 <span>Karakter B</span>
             </button>
@@ -117,20 +117,40 @@ ulike spill:
 
     </main>
     <script type="module">
-        const overlay = document.getElementById("characterOverlay");
+        let started = false;
 
-        function startGameWithSkin(skinFolder) {
+        window.addEventListener("DOMContentLoaded", () => {
+            const overlay = document.getElementById("characterOverlay");
+            const cards = document.querySelectorAll(".char-card");
+
+            console.log("Character cards found:", cards.length);
+
+            async function startGameWithSkin(skinFolder) {
+            if (started) return;
+            started = true;
+
+            console.log("Chosen skin:", skinFolder);
+
             localStorage.setItem("selectedSkin", skinFolder);
-            overlay.hidden = true;
 
-            // Load the game only AFTER the user has chosen
-            import("./dino-game-main/index.js");
-        }
+            if (overlay) overlay.classList.add("is-hidden");
 
-        document.querySelectorAll(".char-card").forEach(btn => {
+            try {
+                await import("./dino-game-main/index.js");
+                console.log("Game module loaded");
+            } catch (err) {
+                console.error("Failed to load game module:", err);
+                alert("Kunne ikke starte spillet. Sjekk Console (F12).");
+                if (overlay) overlay.classList.remove("is-hidden");
+            }
+            }
+
+            cards.forEach((btn) => {
             btn.addEventListener("click", () => startGameWithSkin(btn.dataset.skin));
+            });
         });
     </script>
+
 
 
     
