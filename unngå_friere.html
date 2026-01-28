@@ -65,6 +65,24 @@ ulike spill:
             </ul>
         </div>
     </nav>
+    <div id="characterOverlay" class="char-overlay">
+        <div class="char-modal">
+            <h2>Velg karakter</h2>
+            <p>Hvem vil du spille som?</p>
+
+            <div class="char-grid">
+            <button class="char-card" data-skin="charA">
+                <img src="dino-game-main/charA/images/standing_still.png" alt="Karakter A">
+                <span>Karakter A</span>
+            </button>
+
+            <button class="char-card" data-skin="charB">
+                <img src="dino-game-main/charB/images/standing_still.png" alt="Karakter B">
+                <span>Karakter B</span>
+            </button>
+            </div>
+        </div>
+    </div>
 
     <main class="container" style="text-align:center;">
 
@@ -92,12 +110,27 @@ ulike spill:
 
 
         <!-- Dino game script -->
-        <script src="dino-game-main/index.js" type="module"></script>
+       
         <img src="dino-game-main/images/ground.png" width="100">
 
 
 
     </main>
+    <script type="module">
+        const overlay = document.getElementById("characterOverlay");
+
+        function startGameWithSkin(skinFolder) {
+            localStorage.setItem("selectedSkin", skinFolder);
+            overlay.hidden = true;
+
+            // Load the game only AFTER the user has chosen
+            import("./dino-game-main/index.js");
+        }
+
+        document.querySelectorAll(".char-card").forEach(btn => {
+            btn.addEventListener("click", () => startGameWithSkin(btn.dataset.skin));
+        });
+    </script>
 
 
     
