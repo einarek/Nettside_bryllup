@@ -180,7 +180,8 @@ function getScaleRatio() {
   } else {
     ratio = screenHeight / GAME_HEIGHT;
   }
-  return Math.min(1, ratio); // 👈 prevents zooming in on big screens
+  const isPhone = window.innerWidth <= 700;
+  return isPhone ? ratio : Math.min(1, ratio);
 
 }
 
