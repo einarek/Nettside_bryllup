@@ -17,7 +17,7 @@ export default class Cactus {
   }
 
   collideWith(sprite) {
-    const adjustBy = 1.4;
+    const adjustBy = 1.6;
 
     const spriteLeft = sprite.x;
     const spriteRight = sprite.x + sprite.width / adjustBy;
