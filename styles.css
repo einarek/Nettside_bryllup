@@ -887,6 +887,15 @@ body {
   transform: translateY(-1px);
 }
 
+/* Make the game fill the phone width */
+#game{
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 10px auto 0;
+}
+
 
 
 @media (max-width: 650px){
