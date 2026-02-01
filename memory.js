@@ -320,17 +320,19 @@ playAgainBtn?.addEventListener("click", newGame);
 
 nameForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const name = playerNameEl.value.trim();
+  const btn = nameForm.querySelector("button");
+  btn.disabled = true;
 
   try{
-    await submitScore(name);
-    playerNameEl.value = "";
-    closeGameOver();
+    await submitScore(playerNameEl.value.trim());
+    window.location.href = "memory_leaderboard.html";
   }catch(err){
+    btn.disabled = false;
     console.error("Submit error:", err);
-    alert("Kunne ikke lagre score. Sjekk Console (F12).");
+    alert("Kunne ikke lagre score.");
   }
 });
+
 
 // Start first game
 newGame();
