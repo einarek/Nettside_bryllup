@@ -1,0 +1,479 @@
+<!--  
+ulike spill:
+- timeguessr med ulike bilder vi har tatt 
+- 
+
+
+
+-->
+
+<!DOCTYPE html>
+<html lang="no">                                                                          <!-- Norwegian as the language -->
+
+<head>                                                                                    <!-- contains metadata and resources that aren’t displayed directly on the web page -->
+    <meta charset="UTF-8">                                                                <!-- Sets the character encoding to UTF-8, which supports most characters from all known languages. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">                <!-- Ensures the page is responsive by setting the viewport width to the device width and initial zoom to 1. -->
+    <title>Info</title>                                                                  <!-- Sets the browser tab title -->
+    <link rel="stylesheet" href="styles.css">                                              <!-- Links an external CSS file named style.css to style the HTML content -->
+    <link rel="icon" type="image/png" href="Images/logo_svart.png">
+    <link rel="stylesheet" href="https://use.typekit.net/qsc8tmo.css">
+
+    <style>
+    /* --- Memory-specific styles (kept small, blends with your styles.css) --- */
+    .memory-wrap{
+      margin-top: 18px;
+      display: grid;
+      gap: 16px;
+      justify-items: center;
+    }
+
+    .memory-topbar{
+      width: min(760px, 100%);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 14px;
+      padding: 12px 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.10);
+    }
+    .memory-stats{
+      display: flex;
+      gap: 14px;
+      align-items: baseline;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .memory-stat{
+      font-family: coordinates, monospace;
+      font-weight: 400;
+      font-style: normal;
+      color: #2b4236;
+    }
+    .memory-actions{
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .memory-actions button,
+    .memory-actions a{
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.18);
+      cursor: pointer;
+      text-decoration: none;
+      color: #000;
+    }
+    .memory-actions button:hover,
+    .memory-actions a:hover{
+      transform: translateY(-1px);
+    }
+
+    .memory-board{
+        width: min(1100px, 96vw);   /* wider, shorter */
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 10px;
+    }
+
+
+    .card{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 7 / 8;
+    border-radius: 14px;
+    border: 1px solid rgba(0,0,0,0.12);
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 180ms ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    will-change: transform;
+    }
+
+    /* Default: show back */
+    .card-front{ opacity: 0; pointer-events: none; }
+    .card-back{ opacity: 1; }
+
+    /* Flipped: show front */
+    .card.is-flipped .card-front{ opacity: 1; }
+    .card.is-flipped .card-back{ opacity: 0; }
+
+
+    .card-face{
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    }
+
+    .card-back{
+    background: #fff;
+    color: #2b4236;
+    font-family: coordinates, monospace;
+    font-weight: 400;
+    font-size: 1.35rem;
+    }
+
+    
+
+    .card-front img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    }
+
+
+    
+
+
+
+
+    .memory-leaderboard{
+      width: min(760px, 100%);
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.10);
+    }
+
+    .memory-leaderboard h2{
+      margin: 0 0 10px;
+      font-weight: 300;
+      letter-spacing: 0.03em;
+    }
+
+    .lb-row{
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 12px;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,0.10);
+      margin-bottom: 10px;
+      align-items: center;
+    }
+    .lb-row:last-child{ margin-bottom: 0; }
+
+    .lb-name{ font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .lb-time{ font-variant-numeric: tabular-nums; }
+    .lb-moves{ opacity: 0.75; }
+
+    /* modal reuse vibe from your gameover-panel */
+    .modal-overlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      display: grid;
+      place-items: center;
+      z-index: 9999;
+      padding: 20px;
+    }
+    .modal{
+      width: min(760px, 95vw);
+      background: white;
+      border-radius: 18px;
+      padding: 18px;
+      border: 1px solid rgba(0,0,0,0.12);
+    }
+    .modal h2{ margin: 0 0 6px; }
+    .modal p{ margin: 0 0 12px; opacity: 0.85; }
+
+    .modal .row{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .modal form{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal input{
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.25);
+      min-width: 220px;
+    }
+    .modal button{
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.18);
+      background: #fff;
+      cursor: pointer;
+    }
+
+    /* =========================
+   Memory-only game over modal
+   Does NOT affect other games
+   ========================= */
+
+    .memory-gameover{
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(0,0,0,0.4);
+    z-index: 10000;
+    padding: 20px;
+    }
+
+    /* override the "normal card" layout from global .gameover-panel */
+    .memory-gameover.gameover-panel{
+    margin: 0;        /* remove page-flow margin */
+    max-width: none;  /* overlay should cover screen */
+    width: auto;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    }
+
+    /* make the inner panel centered and styled */
+    .memory-gameover .gameover-row{
+    width: min(720px, 95vw);
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 18px;
+    padding: 18px 16px;
+
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 14px;
+    align-items: center;
+    }
+
+    /* ===== Force-centering for Memory page only ===== */
+    .game-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;   /* centers all children (board + topbar) */
+    }
+
+    /* if you use the wrapper */
+    .memory-wrap{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;   /* centers its children */
+    gap: 16px;
+    }
+
+    /* center the top bar */
+    .memory-topbar{
+    margin-inline: auto;
+    }
+
+    /* center the board */
+    .memory-board{
+    margin-inline: auto;
+    place-content: center; /* centers the grid inside if there's extra space */
+    }
+
+    .memory-bottom-panel{
+    width: min(1100px, 96vw);
+    margin: 14px auto 0;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 14px;
+    padding: 12px 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.10);
+
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    }
+
+    .memory-submit{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    }
+
+    .memory-submit input{
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.25);
+    min-width: 220px;
+    }
+
+    .memory-submit button{
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.18);
+    background: #fff;
+    cursor: pointer;
+    }
+    @media (max-width: 700px){
+    .memory-bottom-panel{ justify-content: center; text-align: center; }
+    .memory-submit input{ min-width: 0; flex: 1; }
+    }
+
+
+
+
+    /* stack nicely on small screens */
+    @media (max-width: 750px){
+    .memory-gameover .gameover-row{
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .memory-gameover .gameover-form{
+        width: 100%;
+        justify-content: center;
+    }
+    .memory-gameover .gameover-form input{
+        flex: 1;
+        min-width: 0;
+    }
+    }
+
+
+    @media (max-width: 560px){
+      .memory-board{ gap: 10px; }
+      .card-back{ font-size: 1.15rem; }
+      .lb-row{ grid-template-columns: 1fr auto; }
+      .lb-moves{ display: none; }
+    }
+
+    @media (max-width: 640px){
+    .memory-board{
+        grid-template-columns: repeat(4, 1fr);
+        width: min(520px, 96vw);
+    }
+
+    .card{
+        aspect-ratio: 1 / 1;
+    }
+    }
+
+  </style>
+</head>
+
+
+<body>   
+    <nav class="navbar">    
+                                                                     <!-- tells the browser (and screen readers, search engines, etc.) that the content inside is a navigation menu—typically links to main sections of the website-->
+        <div class="navbar__container"> 
+            <a href="./index.html" class="navbar_logo_links">                                           <!-- It’s a block-level container used to group elements together for styling or scripting (via CSS or JavaScript). -->
+                <img src="Images/logo_navbar.jpg" alt="Logo_navbar" class="navbar_logo"> 
+            </a>
+            <ul class="navbar__menu">
+                
+                <li class="navbar__item">
+                    <a href="./index.html" class="navbar__links">
+                        HJEM
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="./info.html" class="navbar__links">
+                        INFO OM DAGEN
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="./overnatting.html" class="navbar__links">
+                        OVERNATTING
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="./gavetips.html" class="navbar__links">
+                        GAVETIPS
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="./spill.html" class="navbar__links">
+                        SPILL
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="./FAQ.html" class="navbar__links">
+                        FAQ
+                    </a>
+                </li>
+                <li class="navbar__btn">
+                    <a href="./RSVP.html" class="button">
+                        RSVP
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container game-page">
+        
+        <h1 class="section-title">Memory 🧠📸</h1>
+        <p>Finn alle parene så fort du kan. Timer starter på første klikk.</p>
+        <div id="board" class="memory-board"></div>
+
+        <!-- Bottom panel under the pictures -->
+        <div id="bottomPanel" class="memory-bottom-panel">
+        <div class="memory-stats">
+            <div class="memory-stat">Tid: <span id="timeText">00:00.0</span></div>
+            <div class="memory-stat">Trekk: <span id="movesText">0</span></div>
+            <div class="memory-stat">Par: <span id="pairsText">0/8</span></div>
+        </div>
+
+        <div class="memory-actions">
+            <button id="restartBtn" type="button">Start på nytt</button>
+
+            <!-- Only shown when game is finished -->
+            <form id="nameForm" class="memory-submit" autocomplete="off" hidden>
+            <input id="playerName" type="text" maxlength="24" placeholder="Skriv navnet ditt" required />
+            <button type="submit">Send inn</button>
+            <a class="leaderboard-link" href="memory_leaderboard.html">Se leaderboard</a>
+            </form>
+        </div>
+        </div>
+
+
+    </main>
+
+    
+    
+    
+    <script type="module" src="memory.js?v=1"></script>
+
+
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+
+        const app = initializeApp({
+        apiKey: "AIzaSyCS76udSJAebNHNaNTcvGVOdvLnU_1LJiI",
+        authDomain: "kartnettside.firebaseapp.com",
+        databaseURL: "https://kartnettside-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "kartnettside",
+        storageBucket: "kartnettside.firebasestorage.app",
+        messagingSenderId: "495949813180",
+        appId: "1:495949813180:web:9f74f5c0e9dfef1f03c7b9",
+        measurementId: "G-W7JZWMQ4ZY"
+        });
+        const auth = getAuth(app);
+        
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+            // not signed in → send back to login
+            window.location.replace("./Login.html");
+            }
+        });
+    </script>
+</body>
+</html>

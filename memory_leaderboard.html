@@ -1,0 +1,224 @@
+<!--  
+ulike spill:
+- timeguessr med ulike bilder vi har tatt 
+- 
+
+
+
+-->
+
+<!DOCTYPE html>
+<html lang="no">                                                                          <!-- Norwegian as the language -->
+
+<head>                                                                                    <!-- contains metadata and resources that aren’t displayed directly on the web page -->
+    <meta charset="UTF-8">                                                                <!-- Sets the character encoding to UTF-8, which supports most characters from all known languages. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">                <!-- Ensures the page is responsive by setting the viewport width to the device width and initial zoom to 1. -->
+    <title>Info</title>                                                                  <!-- Sets the browser tab title -->
+    <link rel="stylesheet" href="styles.css">                                              <!-- Links an external CSS file named style.css to style the HTML content -->
+    <link rel="icon" type="image/png" href="Images/logo_svart.png">
+    <link rel="stylesheet" href="https://use.typekit.net/qsc8tmo.css">
+</head>
+<body>   
+    <nav class="navbar">    
+                                                                     <!-- tells the browser (and screen readers, search engines, etc.) that the content inside is a navigation menu—typically links to main sections of the website-->
+        <div class="navbar__container"> 
+            <a href="./index.html" class="navbar_logo_links">                                           <!-- It’s a block-level container used to group elements together for styling or scripting (via CSS or JavaScript). -->
+                <img src="Images/logo_navbar.jpg" alt="Logo_navbar" class="navbar_logo"> 
+            </a>
+            <ul class="navbar__menu">
+                
+                <li class="navbar__item">
+                    <a href="./index.html" class="navbar__links">
+                        HJEM
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="./info.html" class="navbar__links">
+                        INFO OM DAGEN
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="./overnatting.html" class="navbar__links">
+                        OVERNATTING
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="./gavetips.html" class="navbar__links">
+                        GAVETIPS
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="./spill.html" class="navbar__links">
+                        SPILL
+                    </a>
+                </li>
+                <li class="navbar__item">
+                    <a href="./FAQ.html" class="navbar__links">
+                        FAQ
+                    </a>
+                </li>
+                <li class="navbar__btn">
+                    <a href="./RSVP.html" class="button">
+                        RSVP
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container_leaderboard">
+        <h1 class="section-title">Leaderboard</h1>
+
+        <div class="lb-actions">
+            <a class="lb-back-btn" href="./memory.html">← Tilbake til spillet</a>
+        </div>
+
+        <div id="lbStatus" style="margin: 12px 0;">Laster…</div>
+
+        <ol id="leaderboardList" class="leaderboard-list"></ol>
+
+        
+    </main>
+
+    
+
+
+    
+    
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+        import { getDatabase, ref, query, orderByChild, limitToFirst, onValue } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+
+
+        const app = initializeApp({
+            apiKey: "AIzaSyCS76udSJAebNHNaNTcvGVOdvLnU_1LJiI",
+            authDomain: "kartnettside.firebaseapp.com",
+            databaseURL: "https://kartnettside-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "kartnettside",
+            storageBucket: "kartnettside.firebasestorage.app",
+            messagingSenderId: "495949813180",
+            appId: "1:495949813180:web:9f74f5c0e9dfef1f03c7b9",
+            measurementId: "G-W7JZWMQ4ZY"
+        });
+
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        let unsubscribeLeaderboard = null;
+
+
+        function loadLeaderboardLive(){
+            const statusEl = document.getElementById("lbStatus");
+            const listEl = document.getElementById("leaderboardList");
+
+            if (!statusEl || !listEl) {
+                console.error("Leaderboard elements not found");
+                return;
+            }
+
+            statusEl.textContent = "Laster…";
+            listEl.innerHTML = "";
+
+            const q = query(
+                ref(db, "memory_leaderboard"),
+                orderByChild("timeMs"),
+                limitToFirst(20)
+            );
+
+
+
+
+            if (unsubscribeLeaderboard) unsubscribeLeaderboard();
+            unsubscribeLeaderboard = onValue(q, (snap) => {
+                listEl.innerHTML = "";
+
+                const data = snap.val();
+                if (!data) {
+                    statusEl.textContent = "Ingen scorer enda.";
+                    return;
+                }
+
+                // Build rows from the raw object
+                const rows = Object.entries(data).map(([id, val]) => ({ id, ...val }));
+
+                // Debug: confirm how many we will render
+                console.log("rows length:", rows.length);
+
+                // Sort highest score first
+                rows.sort(
+                    (a, b) => (a.timeMs ?? 0) - (b.timeMs ?? 0) || (a.moves ?? 0) - (b.moves ?? 0)
+                );
+
+
+                const frag = document.createDocumentFragment();
+
+                rows.forEach((r, idx) => {
+                    const li = document.createElement("li");
+                    li.className = "leaderboard-item";
+                    li.innerHTML = `
+                    <span class="leaderboard-name">
+                        ${idx + 1}. ${escapeHtml(r.name ?? "Ukjent")}
+                    </span>
+
+                    <span class="leaderboard-score">
+                        ${formatTime(r.timeMs ?? 0)} • ${r.moves ?? 0} trekk
+                    </span>
+
+                    `;
+                    frag.appendChild(li);
+                });
+
+                listEl.appendChild(frag);
+                statusEl.textContent = "";
+                }, (err) => {
+                console.error("LIVE LOAD ERROR:", err);
+                statusEl.textContent = "Kunne ikke laste leaderboard (se Console).";
+            });
+
+            }
+
+        
+
+        function escapeHtml(str){
+            return String(str)
+            .replaceAll("&","&amp;")
+            .replaceAll("<","&lt;")
+            .replaceAll(">","&gt;")
+            .replaceAll('"',"&quot;")
+            .replaceAll("'","&#039;");
+        }
+
+        function formatTime(ms){
+            const totalSeconds = Math.floor(ms / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            const tenths = Math.floor((ms % 1000) / 100);
+            return `${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}.${tenths}`;
+        }
+
+
+        //onAuthStateChanged(auth, async (user) => {
+        //    if (!user) {
+        //    window.location.replace("./Login.html");
+        //    return;
+        //    }
+        //    await loadLeaderboard();
+        //});
+        // 🔥 TEMP: Load leaderboard immediately (no auth dependency)
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.replace("./Login.html");
+                return;
+            }
+            loadLeaderboardLive(); // start live updates only when logged in
+        });
+
+
+
+    </script>
+
+</body>
+</html>
+
