@@ -127,7 +127,7 @@ ulike spill:
             statusEl.textContent = "Laster…";
             listEl.innerHTML = "";
 
-            const q = query(ref(db, "leaderboard"), orderByChild("score"), limitToLast(20));
+            const q = query(ref(db, "leaderboard"), orderByChild("score"));
 
 
             if (unsubscribeLeaderboard) unsubscribeLeaderboard();
@@ -141,19 +141,45 @@ ulike spill:
                 }
 
                 // Build rows from the raw object
+                // Build rows from the raw object
                 const rows = Object.entries(data).map(([id, val]) => ({ id, ...val }));
 
-                // Debug: confirm how many we will render
                 console.log("rows length:", rows.length);
 
+                // Keep only the best score per name
+                const bestByName = new Map();
+
+                rows.forEach((r) => {
+                    const cleanName = (r.name ?? "Ukjent").trim().toLowerCase();
+
+                    if (!bestByName.has(cleanName)) {
+                        bestByName.set(cleanName, r);
+                    } else {
+                        const existing = bestByName.get(cleanName);
+
+                        const isBetter =
+                            (r.score ?? -Infinity) > (existing.score ?? -Infinity) ||
+                            (
+                                (r.score ?? -Infinity) === (existing.score ?? -Infinity) &&
+                                (r.ts ?? 0) > (existing.ts ?? 0)
+                            );
+
+                        if (isBetter) {
+                            bestByName.set(cleanName, r);
+                        }
+                    }
+                });
+
+                const uniqueRows = Array.from(bestByName.values());
+
                 // Sort highest score first
-                rows.sort(
+                uniqueRows.sort(
                     (a, b) => (b.score ?? 0) - (a.score ?? 0) || (b.ts ?? 0) - (a.ts ?? 0)
                 );
 
                 const frag = document.createDocumentFragment();
 
-                rows.forEach((r, idx) => {
+                uniqueRows.slice(0, 20).forEach((r, idx) => {
                     const li = document.createElement("li");
                     li.className = "leaderboard-item";
                     li.innerHTML = `
