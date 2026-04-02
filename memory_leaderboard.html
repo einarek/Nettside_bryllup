@@ -142,13 +142,19 @@ ulike spill:
                 // Build rows from the raw object
                 const rows = Object.entries(data).map(([id, val]) => ({ id, ...val }));
 
+                const excludedNames = ["e","MariusMarius", "Marius.","Mariud"]; // names you want to exclude
+
+                const filteredRows = rows.filter(r => 
+                    !excludedNames.includes((r.name ?? "").trim())
+                );
+
                 // Debug: confirm how many we will render
                 console.log("rows length:", rows.length);
 
                 // Keep only the best score for each name
                 const bestByName = new Map();
 
-                rows.forEach((r) => {
+                filteredRows.forEach((r) => {
                     const cleanName = (r.name ?? "Ukjent").trim().toLowerCase();
 
                     if (!bestByName.has(cleanName)) {
