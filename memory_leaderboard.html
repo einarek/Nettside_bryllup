@@ -124,7 +124,6 @@ ulike spill:
             const q = query(
                 ref(db, "memory_leaderboard"),
                 orderByChild("timeMs"),
-                limitToFirst(20)
             );
 
 
@@ -146,15 +145,42 @@ ulike spill:
                 // Debug: confirm how many we will render
                 console.log("rows length:", rows.length);
 
-                // Sort highest score first
-                rows.sort(
+                // Keep only the best score for each name
+                const bestByName = new Map();
+
+                rows.forEach((r) => {
+                    const cleanName = (r.name ?? "Ukjent").trim().toLowerCase();
+
+                    if (!bestByName.has(cleanName)) {
+                        bestByName.set(cleanName, r);
+                    } else {
+                        const existing = bestByName.get(cleanName);
+
+                        const isBetter =
+                            (r.timeMs ?? Infinity) < (existing.timeMs ?? Infinity) ||
+                            (
+                                (r.timeMs ?? Infinity) === (existing.timeMs ?? Infinity) &&
+                                (r.moves ?? Infinity) < (existing.moves ?? Infinity)
+                            );
+
+                        if (isBetter) {
+                            bestByName.set(cleanName, r);
+                        }
+                    }
+                });
+
+                // Convert back to array
+                const uniqueRows = Array.from(bestByName.values());
+
+                // Sort best first
+                uniqueRows.sort(
                     (a, b) => (a.timeMs ?? 0) - (b.timeMs ?? 0) || (a.moves ?? 0) - (b.moves ?? 0)
                 );
 
 
                 const frag = document.createDocumentFragment();
 
-                rows.forEach((r, idx) => {
+                uniqueRows.slice(0,20).forEach((r, idx) => {
                     const li = document.createElement("li");
                     li.className = "leaderboard-item";
                     li.innerHTML = `

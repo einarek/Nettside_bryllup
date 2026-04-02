@@ -68,6 +68,8 @@ let timerRaf = 0;
 let moves = 0;
 let matchedPairs = 0;
 
+let finalTimeMs = 0;
+
 // -----------------------
 // Helpers
 // -----------------------
@@ -259,6 +261,7 @@ function onCardClick(card){
 // Game over panel
 // -----------------------
 function openGameOver(){
+  finalTimeMs = getElapsedMs();
   stopTimer();
   nameForm.hidden = false;
   playerNameEl.focus();
@@ -280,6 +283,7 @@ function resetGameState(){
 
   started = false;
   startTs = 0;
+  finalTimeMs = 0;
   stopTimer();
 
   setMoves(0);
@@ -299,7 +303,7 @@ async function submitScore(name){
 
   const entry = {
     name,
-    timeMs: getElapsedMs(),
+    timeMs: finalTimeMs,
     moves,
     createdAt: Date.now()
   };
