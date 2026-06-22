@@ -896,6 +896,92 @@ body {
   margin: 10px auto 0;
 }
 
+.upload-section {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.upload-message {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.upload-message h1 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.upload-message p {
+    font-size: 1.4rem;
+    line-height: 1.6;
+}
+
+.upload-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+.upload-image {
+    flex: 1;
+}
+
+.upload-image img {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 12px;
+    display: block;
+}
+
+.upload-button-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.upload-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    max-width: 400px;
+    min-height: 180px;
+
+    background-color: #000;
+    color: white;
+    text-decoration: none;
+
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+
+    border-radius: 12px;
+    transition: 0.3s ease;
+}
+
+.upload-button:hover {
+    transform: translateY(-3px);
+    opacity: 0.9;
+}
+
+@media screen and (max-width: 768px) {
+    .upload-content {
+        flex-direction: column;
+    }
+
+    .upload-message h1 {
+        font-size: 2rem;
+    }
+
+    .upload-button {
+        min-height: 120px;
+        font-size: 1.5rem;
+    }
+}
+
 
 
 @media (max-width: 650px){
